@@ -47,17 +47,17 @@ const NewPassword = () => {
  
  
   return (
-    <div className='w-[96rem] m-auto  dark:bg-slate-950 dark:text-white'>
-    <div className='w-[90rem]  m-auto'>
-         <div className='w-[30rem]  shadow-lg m-auto p-7'>
+    <div className='max-w-[96rem] m-auto  dark:bg-slate-950 dark:text-white'>
+    <div>
+         <div className='w-full sm:w-[30rem]  shadow-lg m-auto p-7'>
              <div className='text-center'>
                  <h4  className='font-bold text-lg'>MyZoneMall</h4>
                  <h3  className=' font-extralight'>create new Password</h3>
              </div>   
-            <form className='flex flex-col gap-3 sm:w-44 w-[100%] p-1 mt-2' onSubmit={handleSubmit}>  
-                   <input  type='password' className='form-input w-96 dark:text-black ' placeholder='Enter New Password' onChange={handleChange} name='password' value={values.password} /> 
+            <form className='flex flex-col gap-3 sm:w-44 w-full p-1 mt-2' onSubmit={handleSubmit}>  
+                   <input  type='password' className='form-input sm:w-96 dark:text-black ' placeholder='Enter New Password' onChange={handleChange} name='password' value={values.password} /> 
                    {errors.password && <span className='text-red-500'>{errors.password}</span>}
-                   <input  type='password' className='form-input w-96 dark:text-black' placeholder='ReEnter New Password' onChange={handleChange} name='repassword' value={values.repassword} />
+                   <input  type='password' className='form-input sm:w-96 dark:text-black' placeholder='ReEnter New Password' onChange={handleChange} name='repassword' value={values.repassword} />
                    {errors.repassword && <span className='text-red-500'>{errors.repassword}</span>}
                    <button className='form-input bg-green-500 text-white font-mono border-0'> Submit </button>      
             </form>

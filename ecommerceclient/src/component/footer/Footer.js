@@ -3,9 +3,9 @@ import React from 'react'
 const Footer = () => {
   return (
     <div>
-        <div className='w-[96rem] m-auto h-[20rem] bg-slate-700'>
-             <div className=''> 
-                <div className='text-white flex justify-evenly p-7'>
+        <div className='max-w-[96rem] m-auto min-h-[20rem] bg-slate-700'>
+             <div> 
+                <div className='text-white flex justify-evenly gap-8 flex-wrap  p-7'>
                    <div>
                         <h4 className='text-xl'>Get to Know Us</h4>
                         <h4 className=' font-thin hover:translate-x-2 cursor-pointer'>About Us</h4>

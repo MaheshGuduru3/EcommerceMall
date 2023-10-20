@@ -214,38 +214,13 @@ const Cart = () => {
   
  return (
   
-    <div className=''>
-        <div className='w-[96rem] m-auto relative top-14 p-2 dark:bg-slate-950'>
-          
-           {
-                orderload && 
-               <div className='absolute   top-28 w-[90rem] flex justify-center z-20 dark:text-white'>  
-               <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-               </svg>
-               <span className='font-mono text-xl '>Loding...</span>
-               </div>
-            }
-          
-          
-          
-          
-          
-           {
-                load && 
-               <div className='absolute   top-28 w-[90rem] flex justify-center z-20 dark:text-white'>  
-               <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-               </svg>
-               <span className='font-mono text-xl'>Loding...</span>
-               </div>
-            }
+    <div>
+        <div className='max-w-[96rem] m-auto relative top-14 p-2 mobile dark:bg-slate-950'>
+   
 
 {
                 isLoading && 
-               <div className='absolute   top-28 w-[90rem] flex justify-center z-20 dark:text-white'>  
+               <div className='absolute   top-28 w-full flex justify-center z-20 dark:text-white'>  
                <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -257,24 +232,24 @@ const Cart = () => {
              {
                 
                 data?.data?.length > 0 ?
-                <div className='w-[90rem] m-auto flex gap-10'>
+                <div className='w-full flex flex-col-reverse justify-center lg:flex-row gap-10'>
                 <div className='flex flex-col  gap-5'>                
                 {
                   data?.data?.map((itm , index)=>( 
  
-                   <div className='w-[60rem]  h-48 shadow-md p-2 border  flex  gap-2  items-center justify-evenly dark:bg-slate-900 dark:text-white dark:border-slate-500' key={index}>
+                   <div className=' w-full lg:w-[50rem] min-h-48 shadow-md p-2 border  flex flex-col md:flex-row gap-2  md:items-center md:justify-evenly dark:bg-slate-900 dark:text-white dark:border-slate-500' key={index}>
                          <div>
-                           <img  src={itm.thumbnail} alt='thumbnail' className='w-[15rem] h-44'/>
+                           <img  src={itm.thumbnail} alt='thumbnail' className='w-full md:w-[15rem] h-44'/>
                          </div>
-                         <div className='w-[20rem]'>
+                         <div className='w-full md:w-[20rem]'>
                            <h4 className='text-lg font-mono truncate'>{itm.title}</h4>
                            <h4 className='text-md font-extralight'>Rating:{itm.rating}</h4>
-                           <div className='flex justify-between p-0.5'>
+                           <div className='flex justify-evenly md:justify-between p-0.5'>
                            <h4 className={itm.stock > 0 ? "text-green-500 font-mono text-lg" : ""}>{itm.stock > 0 ? "InStock" : "NoStock"}</h4>
                            <h4 className='text-md font-semibold'>Price: <BiRupee className=' inline-block' />{itm.price}</h4>
                            </div>
                          </div>
-                            <div className=''>
+                            <div>
                                <select className='border p-1 dark:text-black' onChange={(e)=>quantityUpdateHandler(itm._id , e.target.value)}>
                                 <option value={itm.quantity} selected disabled>{itm.quantity}</option>
                                  <option value='1'>1</option>
@@ -294,7 +269,7 @@ const Cart = () => {
                 }
               </div>
                  <div>
-                     <div className=' w-[20rem] p-2 bg-amber-300 shadow-lg'>
+                     <div className='lg:w-[10rem] p-2 bg-amber-300 shadow-lg'>
                        <h4 className='text-lg font-extralight'>SubTotal amount</h4>
                        <h4 className='text-md font-extralight'>Total products : {datacart?.data?.length >=1 ? datacart?.data?.length : 0}</h4>
                        <h2 className='text-md font-mono'>price : <BiRupee className=' inline-block'/>{ tAmount }</h2>
@@ -305,8 +280,8 @@ const Cart = () => {
                      {
               address && 
               <div className='absolute top-1 z-10'>
-                  <div className='w-[90rem]'>
-                     <div  className='w-[30rem] min-h-[25rem] m-auto bg-white shadow-lg p-5 dark:bg-slate-950 dark:text-white'>
+                  <div>
+                     <div  className='w-[20rem] sm:w-[30rem] min-h-[25rem] m-auto bg-white shadow-lg p-5 dark:bg-slate-950 dark:text-white'>
                           <h4 className='text-2xl font-light'>Fill Your Address</h4>
                           <div>
                              <form onSubmit={handleSubmit}>
@@ -339,7 +314,7 @@ const Cart = () => {
                                     <button className='bg-gray-400 text-lg font-thin rounded-md p-1 px-2 text-white' onClick={()=>setAddress(false)}>Cancel</button>
                                  </div>
                              </form>
-                             <div className='w-[30rem]'>
+                             <div className='sm:w-[30rem]'>
                             
                               {
                                   Addr?.data?.map((itm)=>(
@@ -368,10 +343,10 @@ const Cart = () => {
 
            {
               payment && 
-              <div className='absolute top-1 z-10'>
-                  <div className='w-[90rem]'> 
+              <div className='absolute top-[50%] left-[50%] z-10' style={{transform:'translate(-50%,-50%)'}}>
+                  <div className=''>  
                   
-                     <div className='w-[30rem] m-auto bg-white shadow-lg p-5 flex flex-col gap-2 relative dark:bg-slate-950 dark:text-white'>
+                     <div className='w-[20rem] sm:w-[30rem] m-auto bg-white shadow-lg p-5 flex flex-col gap-2 relative dark:bg-slate-950 dark:text-white'>
                          <h4 className='text-xl font-sans'>Choose Payment Mode</h4>
                          <div className='p-1 text-md font-thin border rounded-md'>
                            <h5>Cash Payment</h5>
@@ -389,6 +364,31 @@ const Cart = () => {
                          </div>                     
                          <button className='bg-red-500 text-white p-1 px-2' onClick={placeOrderCartHandler}>PlaceOrder</button>
                       <button className='absolute right-5' onClick={()=>setPayment(false)}><RxCross2 className='text-2xl' /></button>
+                    
+                      {
+                orderload && 
+               <div className='absolute   top-28 w-full flex justify-center z-20 dark:text-white'>  
+               <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+               </svg>
+               <span className='font-mono text-xl '>Loding...</span>
+               </div>
+            }
+            
+            
+            
+            {
+                load && 
+               <div className='absolute   top-28 w-full flex justify-center z-20 dark:text-white'>  
+               <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+               </svg>
+               <span className='font-mono text-xl '>Loding...</span>
+               </div>
+            }
+                    
                      </div>
                   </div>
                </div>

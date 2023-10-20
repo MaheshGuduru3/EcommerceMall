@@ -27,9 +27,9 @@ const SearchProduct = () => {
     },[param.search])
 
   return (
-    <div className=''>
-        <div className='w-[96rem] m-auto relative top-14 p-4 dark:bg-slate-950'> 
-        <div className='w-[95rem] m-auto flex gap-5'>                
+    <div>
+        <div className='max-w-[96rem] m-auto relative top-14 mobile p-4 dark:bg-slate-950'> 
+        <div className=' flex  flex-wrap  gap-5'>                
                {
                  data?.data?.map((itm , index)=>(   
 

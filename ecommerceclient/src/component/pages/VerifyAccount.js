@@ -36,8 +36,8 @@ const VerifyAccount = () => {
 
     },[mailHandler])
   return (
-    <div className='m-auto w-[96rem] relative top-14 h-screen dark:bg-slate-800'>
-          <div className='w-[30rem]  p-10 m-auto shadow-lg bg-white dark:bg-slate-900 dark:text-white'>       
+    <div className='m-auto max-w-[96rem] relative top-14 dark:bg-slate-800'>
+          <div className=' p-10  shadow-lg bg-white dark:bg-slate-900 dark:text-white'>       
                <div className='text-center font-mono mb-2'>
                 <h4  className='font-bold'>MyZoneMall</h4>
                 <h3  className=''>Verify Account</h3>

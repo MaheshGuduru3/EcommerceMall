@@ -31,14 +31,14 @@ const Success = () => {
       
 
     return (
-    <div className='w-[96rem] m-auto relative top-14 dark:bg-slate-950 p-4 dark:text-white'>
-      <div className='w-[90rem] m-auto flex flex-col items-center gap-2'>
+    <div className='max-w-[96rem] m-auto relative top-14 mobile dark:bg-slate-950 p-4 dark:text-white'>
+      <div className='flex flex-col items-center gap-2'>
         <img  src={log}  alt='successlog' className=' w-[30rem] h-[20rem]' /> 
         <h2 className='text-2xl font-bold'>Thank You</h2>
         <h3 className='text-lg font-extralight'>Your order has been placed Successfully 🎉</h3>
-        <div>
+        <div className='sm:flex-row flex flex-col gap-2'>
           <NavLink className='bg-blue-500 font-mono text-md p-2 rounded-md mr-2 text-white' to='/'> Continue Your Shopping</NavLink>    
-          <NavLink className='bg-blue-500 font-mono text-md p-2 rounded-md text-white' to={`/orderitems/${User.email}`}>View Your Orders</NavLink>
+          <NavLink className='bg-blue-500 font-mono text-md p-2 rounded-md mr-2 text-white' to={`/orderitems/${User.email}`}>View Your Orders</NavLink>
         </div>
       </div>
     </div>

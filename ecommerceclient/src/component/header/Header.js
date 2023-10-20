@@ -164,14 +164,14 @@ useEffect(()=>{
 },[])
 
 return (
-    <div className=''>
+    <div>
     <div className='w-full bg-blue-600  dark:bg-slate-900 fixed z-20'>
-      <div className='max-w-[96rem] h-[3.5rem] m-auto'>
-          <div className='w-[95rem] m-auto bg-blue-600 flex items-center p-1 justify-evenly dark:bg-slate-900'>
-              <div className='w-[8rem]'>
-                <NavLink to='' className='text-white font-sans font-medium text-[1.4rem]'>MyZoneMall</NavLink>  
+      <div className='h-[3.5rem] m-auto'>
+          <div className='max-w-[96rem] m-auto md:bg-blue-600 flex items-center p-1 justify-evenly dark:bg-slate-900'>
+              <div className='sm:w-[8rem] w-[8.5rem]'>
+                <NavLink to='' className='text-white  sm:font-medium sm:text-[1.4rem] text-[0.85rem] font-bold'>MyZoneMall</NavLink>  
               </div>
-              <div>
+              <div className='hidden md:block'>
                 <button className=' text-white hover:border rounded-md min-w-[10rem] h-10' onClick={()=>setTogglePincode(!togglePincode)}>
                     <h6 className='text-xs font-light'> <span><MdLocationPin  style={{display:'inherit'}} className='text-sm'/></span> DeliverAddress</h6>
                     <h4 className='text-sm font-bold'>
@@ -204,9 +204,9 @@ return (
                 </div>   
                 }
               </div>
-              <div className='w-[32%] bg-black border'>
+              <div className='sm:w-[32%] w-[15rem] bg-black border'>
                 <form className='flex' onSubmit={(e)=>handlerSubmitTitle(e)}>   
-                    <input className='form-input w-[29rem] border-none focus:outline-none' type='search' value={searching} placeholder='searching' onKeyDown={(e)=>{if(e.key === "Enter"){handlerFilterTitle()}}} onChange={(e)=>filterTitleHandler(e)} />
+                    <input className='form-input sm:w-[29rem] w-full border-none focus:outline-none' type='search' value={searching} placeholder='searching' onKeyDown={(e)=>{if(e.key === "Enter"){handlerFilterTitle()}}} onChange={(e)=>filterTitleHandler(e)} />
                      <button className='form-input border-none'><GoSearch className=''/></button>
                 </form>
                   {
@@ -219,7 +219,7 @@ return (
                   }
                   {
                       searching.length > 0 && 
-                        <div className='absolute mt-1 w-[31.8%] xl:w-[30.5rem]'>
+                        <div className='absolute mt-1 w-[40%] xl:w-[30.5rem]'>
                           <div className='bg-white  h-44 rounded-md p-2 w-full overflow-scroll dark:bg-slate-900 dark:text-white'>
                             <ul>
                                 {
@@ -232,8 +232,8 @@ return (
                       </div> 
                   }
               </div>
-              <div className='w-[20%] flex justify-evenly items-center'>
-              <div className='w-[15%]'>         
+              <div className='lg:w-[20rem] md:w-[12rem] sm:w-[12rem] w-[12rem] md:relative flex  justify-end gap-5 sm:justify-evenly items-center'>
+              <div className='hidden sm:w-[15%] sm:block'>         
                   <NavLink className='flex' to={User.length === undefined  && User ? `/cart/${User.email}` : '/login'}> 
                       <BsCartCheck  className='h-10 w-[1.4rem] text-white '/>
                       <span className='mt-[-0.5rem] text-white font-light'>{data?.data?.length >= 1 ? data?.data?.length : "" }</span>
@@ -260,7 +260,7 @@ return (
                   
                    {
                       profileToggle && 
-                      <div className='absolute z-10 top-16' >
+                      <div className='absolute z-10 top-16 right-0 md:left-11' >
                        <div className= 'bg-white rounded-md  w-[12rem] h-96 p-5 shadow-lg dark:bg-slate-950'> 
                             <div className='flex flex-col justify-between h-80'>
                               <div className='flex flex-col gap-2 dark:text-white'>
@@ -276,6 +276,10 @@ return (
                                    <BiCartAdd className='text-2xl text-blue-500' />
                                   <h4 className='font-medium hover:-translate-y-2'>Your order</h4>
                                  </NavLink>
+                                 <NavLink className='flex items-center gap-3 text-lg sm:hidden' to={User.length === undefined  && User ? `/cart/${User.email}` : '/login'}> 
+                                    <BsCartCheck  className='text-2xl text-blue-500'/>
+                                    <h4 className='font-medium hover:-translate-y-2'>Cart{data?.data?.length >= 1 ? data?.data?.length : "" }</h4>
+                                </NavLink>
                               </div>
           
                                <div className='flex flex-col gap-2 dark:text-white'>
@@ -285,7 +289,7 @@ return (
                                     <h4 className='font-bold hover:-translate-y-2'>Sign Out</h4>
                                   </button>
                                   <hr />
-                                  <div className=''>
+                                  <div>
                                   <button className='w-[5rem] h-10'>
                                       {User.profile ? <img  src={User.profile} alt='images' className='w-10 h-10 rounded-3xl' referrerPolicy='no-referrer' /> :
                                         <div><BsPersonCircle className='text-3xl text-white' /></div>

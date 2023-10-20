@@ -12,24 +12,24 @@ const YourOrder = () => {
    
   
   return (
-    <div className='w-[96rem] m-auto relative top-14 p-2 dark:bg-slate-950'>
+    <div className='max-w-[96rem] m-auto relative top-14 p-2 mobile dark:bg-slate-950'>
     
              {
                 
                 data?.data?.length > 0 ?
-                <div className='w-[96rem] m-auto flex gap-10'>
-                <div className='flex flex-col  gap-5'>                
+                <div className='flex gap-10 '>
+                <div className='w-full flex flex-col  items-center gap-5'>                
                 {
                   data?.data?.map((itm , index)=>(
  
-                   <div className='w-[60rem]  h-48 shadow-md p-2 border  flex  gap-2  items-center justify-evenly dark:bg-slate-900 dark:text-white dark:border-slate-500' key={index}>
+                   <div className='w-full md:w-[50rem] min-h-48 shadow-md p-2 border  flex  gap-2 flex-col  md:flex-row md:items-center md:justify-evenly dark:bg-slate-900 dark:text-white dark:border-slate-500' key={index}>
                          <div>
-                           <img  src={itm?.products[0]?.thumbnail} alt='thumbnail' className='w-[15rem] h-44'/>
+                           <img  src={itm?.products[0]?.thumbnail} alt='thumbnail' className='w-full  md:w-[15rem] h-44'/>
                          </div>
-                         <div className='w-[20rem]'>
+                         <div className='w-full md:w-[20rem]'>
                            <h4 className='text-lg font-mono truncate'>{itm?.products[0]?.title}</h4>
                            <h4 className='text-md font-extralight'>quantity:{itm.quantity}</h4>
-                           <div className='flex justify-between p-0.5'>
+                           <div className='flex flex-col justify-between sm:flex-row p-0.5'>
                            <h4 className={itm.ispaid ? "text-green-500 font-mono text-lg" : ""}>{itm.ispaid ? "Paid" : "not paid"}</h4>
                            <h4 className='text-md font-semibold'>Price: <BiRupee className=' inline-block' />{itm.amount}</h4>
                            <h4 className='text-md font-semibold'>TotalAmount: <BiRupee className=' inline-block' />{itm.tamount}</h4>

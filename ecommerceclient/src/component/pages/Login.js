@@ -67,7 +67,7 @@ const Login = () => {
    
   return (
     <div className='w-[100%]'>
-       <div className='max-w-[96rem] m-auto flex justify-center items-center h-[100vh] xs:bg-black dark:bg-slate-800'>
+       <div className='max-w-[96rem] m-auto flex justify-center items-center min-h-[100vh] xs:bg-black dark:bg-slate-800'>
             <div className='w-[100%] sm:w-[27rem] shadow-lg p-7 rounded-lg dark:bg-slate-900 dark:text-white'>
                  <h4 className='text-2xl  font-semibold text-center'>MyZoneMall</h4>
                  <div className='min-h-[15rem] flex flex-col justify-center items-center gap-2'>

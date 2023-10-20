@@ -70,13 +70,13 @@ const WishList = () => {
   }
 
  return (
-    <div className=''>
-        <div className='w-[96rem] m-auto relative top-14 p-2 dark:bg-slate-950'>
+    <div >
+        <div className='max-w-[96rem] m-auto relative mobile top-14 p-2 dark:bg-slate-950'>
             
              {
                 
                 data?.data?.length > 0 ?
-                <div className='w-[96rem] m-auto  flex  flex-wrap  gap-5'>                
+                <div className='flex  flex-wrap  gap-5'>                
                 {
                   data?.data?.map((itm , index)=>(
  
@@ -84,7 +84,7 @@ const WishList = () => {
                          <div>
                            <img  src={itm.thumbnail} alt='thumbnail' className='w-full h-32'/>
                          </div>
-                         <div className=''>
+                         <div >
                            <h4 className='text-lg font-mono truncate'>{itm.title}</h4>
                            <h4 className='text-md font-extralight'>Rating:{itm.rating}</h4>
                            <div className='flex justify-between p-0.5'>

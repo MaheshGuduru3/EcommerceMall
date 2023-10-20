@@ -286,36 +286,14 @@ catch(err){
    },[payMode1])
       
     return (
-    <div className='w-[96rem] m-auto relative top-14 dark:bg-slate-950'>
-         <div className='max-w-[96rem] m-auto p-1'>
+    <div className='max-w-[96rem] m-auto relative top-14 mobile dark:bg-slate-950'>
+         <div className=' p-1'>
             
-         {
-                orderload && 
-               <div className='absolute   top-28 w-[90rem] flex justify-center z-20 dark:text-white'>  
-               <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-               </svg>
-               <span className='font-mono text-xl '>Loding...</span>
-               </div>
-            }
-            
-            
-            
-            {
-                load && 
-               <div className='absolute   top-28 w-[90rem] flex justify-center z-20 dark:text-white'>  
-               <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-               </svg>
-               <span className='font-mono text-xl '>Loding...</span>
-               </div>
-            }
+      
 
             {
                isLoading ?               
-                <div className='w-[90rem] flex justify-center dark:text-white'>
+                <div className='w-full flex justify-center dark:text-white'>
                   <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -324,8 +302,8 @@ catch(err){
               </div>
              :
             <>
-            <div className='flex justify-center'>
-             <div className='w-[40rem] border h-[35rem] p-4  dark:text-white'>
+            <div className='flex justify-center flex-col items-center md:flex-row'>
+             <div className='w-full sm:w-[40rem] border h-[35rem] p-4  dark:text-white'>
                 <div>  
                     <img  src={data?.data?.images[imgslide]} alt='image'  className='w-full h-[25rem] rounded-md'/>
                 </div>  
@@ -341,7 +319,7 @@ catch(err){
                 }
                 </div>
              </div>
-             <div className='w-[40rem] p-4 dark:text-white'>
+             <div className='w-full sm:w-[40rem] p-4 dark:text-white'>
                   <div className='flex flex-col  gap-2'>
                     <div>
                         <h6 className='text-5xl font-semibold'>{data?.data.title}</h6>
@@ -361,7 +339,7 @@ catch(err){
                         <h4 className='p-1 text-md font-mono dark:text-white'>{quantity}</h4>
                         <button className='border bg-white font-bold px-2.5' onClick={()=>{ quantity >= 5 ? setQuantity(1) : setQuantity(quantity+1)}}>+</button>
                     </div>       
-                      <div className='w-[20rem] flex flex-col gap-1'>
+                      <div className='w-full sm:w-[20rem] flex flex-col gap-1'>
                         <button className='bg-blue-400 p-1 rounded-md text-white font-semibold w-full' onClick={()=>{if(User.length === undefined  && User){BuyingHandler()}else{navigate('/login')}}}>Buy</button>
                         
                           <button className={data?.data?.typeofProduct === 'offerproduct' ? 'hidden':'text-white font-serif w-full'}>
@@ -389,32 +367,30 @@ catch(err){
 
           <div className='p-2 dark:text-white'>
             <h4 className='text-2xl font-thin'>similar products</h4>
-            <div className='flex gap-5 p-2'>  
+            <div className='flex flex-wrap gap-3 sm:justify-start'>  
                {
-                 data1?.data?.length === 0 && <div>Not Found</div>
+                 data1?.data?.length === 0 && <div>Not Found</div>   
                }
                
 
                {
-                 data1?.data?.map((itm , index)=>(
+                  data1?.data?.map((itm , index)=>(
 
-                  <NavLink to={`/singleproduct/${itm._id}`} className='w-[15rem] min-h-60 shadow-md p-2 border  flex flex-col gap-2 dark:bg-slate-900 dark:text-white dark:border-slate-500' key={index} onClick={()=>setAddress1(false)}>
-                        <div>
-                          <img  src={itm.thumbnail} alt='thumbnail' className={"w-full h-32"}/>
-                        </div>
-                        <div className=''>
-                          <h4 className='text-lg font-mono truncate'>{itm.title}</h4>
-                          <h4 className='text-md font-extralight flex items-center bg-green-400 w-14 px-2 py-0.5 rounded-md'>{itm.rating} <span><AiFillStar className=' text-amber-500'/></span></h4>
-                          <div className='flex justify-between p-0.5'>
-                          <h4 className={itm.stock > 0 ? "text-green-500 font-mono text-lg" : ""}>{itm.stock > 0 ? "InStock" : "NoStock"}</h4>
-                          <h4 className='text-md font-semibold'><BiRupee className='inline-block' />{itm.price}</h4>
-                          </div>     
-                          <div className='flex justify-between items-center p-2'> 
-                      
-                         </div>
-                        </div>
-                  </NavLink>
-                 ))
+                     <div className='w-[15rem] min-h-60 shadow-md p-2 border  flex flex-col gap-2 dark:bg-slate-900 dark:text-white dark:border-slate-500' key={index}>
+                           <NavLink to={`/singleproduct/${itm._id}`}>
+                             <img  src={itm.thumbnail} alt='thumbnail' className={"w-full h-32"}/>
+                           </NavLink>
+                           <div>
+                             <h4 className='text-lg font-mono truncate'>{itm.title}</h4>
+                             <h4 className='text-md font-extralight flex items-center bg-green-400 w-14 px-2 py-0.5 rounded-md'>{itm.rating} <span><AiFillStar className=' text-amber-500'/></span></h4>
+                             <div className='flex justify-between p-0.5'>
+                             <h4 className={itm.stock > 0 ? "text-green-500 font-mono text-lg" : ""}>{itm.stock > 0 ? "InStock" : "NoStock"}</h4>
+                             <h4 className='text-md font-semibold'><BiRupee className='inline-block' />{itm.price}</h4>
+                             </div>     
+                             
+                           </div>
+                     </div>
+                    ))
                }
              </div>
 
@@ -424,9 +400,9 @@ catch(err){
          </div>
            {
               address1 && 
-              <div className='absolute top-1 z-10'>
-                  <div className='w-[96rem]'>
-                     <div  className='w-[30rem] min-h-[25rem] m-auto bg-white shadow-lg p-5 dark:bg-slate-950 dark:text-white'>
+              <div className='absolute top-[50%] left-[50%] z-10' style={{transform:'translate(-50%,-50%)'}}>
+                  <div>
+                     <div  className='w-[20rem] sm:w-[30rem] min-h-[25rem]  m-auto bg-white shadow-lg p-5 dark:bg-slate-950 dark:text-white'>
                           <h4 className='text-2xl font-light'>Fill Your Address</h4>
                           <div>
                              <form onSubmit={handleSubmit}>
@@ -459,7 +435,7 @@ catch(err){
                                     <button className='bg-gray-400 text-lg font-thin rounded-md p-1 px-2 text-white' onClick={()=>setAddress1(false)}>Cancel</button>
                                  </div>
                              </form>
-                             <div className='w-[30rem]'>
+                             <div className='sm:w-[30rem]'>
                             
                               {
                                   Addr?.data?.map((itm , index)=>(
@@ -488,10 +464,10 @@ catch(err){
 
            {
               payment1 && 
-              <div className='absolute top-1 z-10'>
-                  <div className='w-[96rem]'> 
+              <div className='absolute top-[50%] left-[50%] z-10' style={{transform:'translate(-50%,-50%)'}}>
+                  <div> 
                   
-                     <div className='w-[30rem] m-auto bg-white shadow-lg p-5 flex flex-col gap-2 relative dark:bg-slate-950 dark:text-white'>
+                     <div className='w-[20rem] sm:w-[30rem] m-auto bg-white shadow-lg p-5 flex flex-col gap-2 relative dark:bg-slate-950 dark:text-white'>
                          <h4 className='text-xl font-sans'>Choose Payment Mode</h4>
                          <div className='p-1 text-md font-thin border rounded-md'>
                            <h5>Cash Payment</h5>
@@ -517,6 +493,30 @@ catch(err){
                      
                          <button className='bg-red-500 text-white p-1 px-2' onClick={placeOrderHandler}>PlaceOrder</button>
                       <button className='absolute right-5' onClick={()=>setPayment1(false)}><RxCross2  className='text-2xl'/></button>
+                      {
+                orderload && 
+               <div className='absolute   top-28 w-full flex justify-center z-20 dark:text-white'>  
+               <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+               </svg>
+               <span className='font-mono text-xl '>Loding...</span>
+               </div>
+            }
+            
+            
+            
+            {
+                load && 
+               <div className='absolute   top-28 w-full flex justify-center z-20 dark:text-white'>  
+               <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+               </svg>
+               <span className='font-mono text-xl '>Loding...</span>
+               </div>
+            }
+                     
                      </div>
                   </div>
                </div>

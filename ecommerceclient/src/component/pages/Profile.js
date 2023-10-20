@@ -85,16 +85,16 @@ const Profile = () => {
   },[profilePic])
  
    return (
-    <div className='w-[96rem] m-auto relative top-14 p-4  dark:bg-slate-950 dark:text-white'>
-          <div className='w-[95rem] m-auto shadow-md p-2 flex flex-col gap-2 items-center'> 
+    <div className='max-w-[96rem] m-auto relative top-14 p-4 mobile dark:bg-slate-950 dark:text-white'>
+          <div className='shadow-md p-2 flex flex-col gap-2 items-center'> 
                <div>
                 <h4>Update Your Profile</h4>
                </div>
-               <div className='flex flex-col items-center'>
-                <button className='text-3xl w-20 p-1'>
+               <div className='flex flex-col sm:items-center'>
+                <button className='text-3xl sm:w-20 p-1'>
                     {
                         loading ? 
-                       <div  className='w-20 flex'>
+                       <div  className='w-full sm:w-20 flex'>
                             <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -107,7 +107,7 @@ const Profile = () => {
                         </div>     
                     }
                 </button>     
-                <button className='w-20'>
+                <button className='sm:w-20'> 
                   <input  type='file' accept='.png,.jpeg,.jpg' className='text-transparent text-xs outline-none'   onChange={(e)=>UpdateImg(e)} />
                 </button>
                </div> 
@@ -117,7 +117,7 @@ const Profile = () => {
                 <form className='grid gap-3' onSubmit={updateHandlers}>
                    <div className='flex flex-col'>
                      <label>Email</label>
-                     <input  type='email' className={User.isVerfied ? 'form-input h-8 w-[25rem] border-green-500 text-black' :'form-input h-8 w-[25rem] border-red-500 text-black'}  value={User?.email} readOnly/>     
+                     <input  type='email' className={User.isVerfied ? 'form-input h-8  w-full sm:w-[25rem] border-green-500 text-black' :'form-input h-8 w-full sm:w-[25rem] border-red-500 text-black'}  value={User?.email} readOnly/>     
                    </div>    
                    <div className='flex flex-col'>
                      <label>UserName</label>

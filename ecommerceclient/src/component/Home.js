@@ -51,11 +51,11 @@ const Home = () => {
 return (
     <div>
     <div className='max-w-[96rem] m-auto dark:bg-slate-950'>  
-      <div className='w-[96rem]  m-auto relative  top-14 dark:bg-slate-950'>
+      <div className='relative  top-14 dark:bg-slate-950 mobile'>
           <div>
-              <div className='w-[96rem] m-auto relative' style={{zIndex:'1'}}>
+              <div className='relative' style={{zIndex:'1'}}>
                    <div className='w-full'>
-                    <img src={imgs[count].img} className='w-full h-[30rem]'  />
+                    <img src={imgs[count].img} className='w-full md:h-[30rem] sm:h-[20rem] h-[15rem]'  />
                    </div>
                    <div className='w-full  absolute  top-28  flex justify-between px-5' >   
                        <button className='text-4xl' onClick={()=>count <= 0 ? setCount(imgs.length-1): setCount(count-1)}><AiOutlineLeft /></button>
@@ -73,13 +73,13 @@ return (
           </div>
           <div>
              <LatestProduts />
-
           </div>
           <div>
             <OfferProducts />
           </div>
            <div>
             <Categories />
+
           </div>
           
           <div>

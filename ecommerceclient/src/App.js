@@ -49,8 +49,8 @@ function App() {
     <div className="w-full">  
       
       {
-          isError ? 
-          <div className="w-[96rem] m-auto flex justify-center">
+          false ? 
+          <div className="max-w-[96rem] m-auto flex justify-center">
            <img  src={server} className="w-[20rem] "/>
           </div>
        : 

@@ -71,6 +71,8 @@ const WishList = () => {
     }
   }
 
+
+
  return (
     <div >
         <div className='max-w-[96rem] m-auto relative mobile top-14 p-2 dark:bg-slate-950'>
@@ -87,7 +89,7 @@ const WishList = () => {
              
              {
                 
-                data?.data?.length > 0 ?
+                data?.data?.length > 0 &&
                 <div className='flex  flex-wrap  gap-5'>                
                 {
                   data?.data?.map((itm , index)=>(
@@ -123,9 +125,14 @@ const WishList = () => {
  
                   ))
                 }
-              </div>
-                 :
+              </div> 
+              }
                
+
+            {
+
+
+                data?.data.length === 0 &&
                  <div>
                
                  <h1 className='text-xl font-bold text-center dark:text-white'>Empty WishList</h1>

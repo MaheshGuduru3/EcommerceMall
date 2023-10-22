@@ -8,6 +8,8 @@ import { useGetCartlistQuery, useGetDeleteWishlistMutation, useGetWishListQuery,
 const WishList = () => {
    const param = useParams()
    const { data } = useGetWishListQuery(param.email) 
+   
+
    const navigate = useNavigate()
    
    const { User } = useSelector(state=>state.userslice)

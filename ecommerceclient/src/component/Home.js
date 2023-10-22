@@ -58,8 +58,8 @@ return (
                     <img src={imgs[count].img} className='w-full md:h-[30rem] sm:h-[20rem] h-[15rem]'  />
                    </div>
                    <div className='w-full  absolute  top-28  flex justify-between px-5' >   
-                       <button className='text-4xl' onClick={()=>count <= 0 ? setCount(imgs.length-1): setCount(count-1)}><AiOutlineLeft /></button>
-                       <button className='text-4xl' onClick={()=>count >= imgs.length-1 ? setCount(0) : setCount(count+1)}><AiOutlineRight /></button>   
+                       <button className='text-xl sm:text-4xl' onClick={()=>count <= 0 ? setCount(imgs.length-1): setCount(count-1)}><AiOutlineLeft /></button>
+                       <button className='text-xl sm:text-4xl' onClick={()=>count >= imgs.length-1 ? setCount(0) : setCount(count+1)}><AiOutlineRight /></button>   
                    </div>
 
                    <div className='w-[100%] absolute bottom-5 flex gap-2 justify-center '>  

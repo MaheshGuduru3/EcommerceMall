@@ -77,7 +77,7 @@ const Register = () => {
   return (
     <div className='w-[100%]'>  
        <div className='max-w-[96rem] m-auto flex justify-center items-center min-h-[100vh] dark:bg-slate-800'>
-            <div className='w-[100%] sm:w-[27rem] shadow-lg p-7 rounded-lg dark:bg-slate-900 dark:text-white'>
+            <div className='w-[85%] sm:w-[27rem] shadow-lg p-7 rounded-lg dark:bg-slate-900 dark:text-white'>
                  <h4 className='text-2xl  font-semibold text-center'>MyZoneMall</h4>
                  <div className='min-h-[22rem] flex flex-col justify-center items-center gap-2'>
                     <h6 className='text-lg p-2'>Register</h6>

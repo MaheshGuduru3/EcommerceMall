@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { MdFavoriteBorder,MdOutlineFavorite } from 'react-icons/md'
 import { AiFillStar } from 'react-icons/ai'
 import { toast } from 'react-toastify'
-import { NavLink } from 'react-router-dom' 
+import { NavLink, useNavigate } from 'react-router-dom' 
 import { useSelector } from 'react-redux'
 import { useGetAllProductsQuery, useGetCartlistQuery, useGetDeleteWishlistMutation, useGetWishListQuery, useGetaddCartlistMutation, useGetdeleteCartlistMutation, useGetmakeWishListMutation } from '../../features/products/productApi'
 
 const Products = () => {
     const [page , setPage] = useState(1)
     const [pageNumber, setPageNumber] = useState(0)
-
+    const navigate = useNavigate()
     
     const { User } = useSelector(state=>state.userslice)
 
@@ -157,7 +157,7 @@ return (
                                         data2?.data?.find((val)=> (val.title === itm.title && val.email === User.email)) ?
                                         <button className='bg-red-500 p-1.5 rounded-md animate-pulse' onClick={()=>prodDeleteCartHandler(itm.title)}>Remove Cart</button>
                                         :
-                                        <button className='bg-blue-500 p-1.5 rounded-md' onClick={()=>productAllAddCartHandler(itm)}>Add to Cart</button>
+                                        <button className='bg-blue-500 p-1.5 rounded-md' onClick={()=>{if(User.length === undefined  && User){productAllAddCartHandler(itm)} else{navigate('/login')}}}>Add to Cart</button>
                                     }
                                 </button>
                                 <button className='text-2xl'>
@@ -167,7 +167,7 @@ return (
 
                                       <MdOutlineFavorite className='text-red-500  animate-bounce' onClick={()=>prodDeleteWishHandler(itm.title)} />    
                                        :
-                                        <MdFavoriteBorder className='text-blue-500' onClick={()=>productAllAddWishHandler(itm)} />
+                                        <MdFavoriteBorder className='text-blue-500' onClick={()=>{if(User.length === undefined  && User){productAllAddWishHandler(itm)}else{navigate('/login')}}} />
                                     }
                                 </button>
                             </div>

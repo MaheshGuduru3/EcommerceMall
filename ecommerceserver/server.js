@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser")
 const   dbConnect   = require('./database/db')
 const Allapis = require('./routers/routes')
 
+const port  = process.env.PORT
 
 
 //middleware
@@ -31,8 +32,8 @@ app.get('/',(req,res)=>{
 
 
 const connection = ()=>{
-    app.listen(3007,()=>{
-        console.log("server connected succesfully and ")
+    app.listen(port,()=>{
+        console.log("server connected succesfully and " , port)
    })
 }
 

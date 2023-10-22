@@ -245,12 +245,12 @@ const Cart = () => {
                            <h4 className='text-lg font-mono truncate'>{itm.title}</h4>
                            <h4 className='text-md font-extralight'>Rating:{itm.rating}</h4>
                            <div className='flex justify-evenly md:justify-between p-0.5'>
-                           <h4 className={itm.stock > 0 ? "text-green-500 font-mono text-lg" : ""}>{itm.stock > 0 ? "InStock" : "NoStock"}</h4>
+                           <h4 className={itm.stock > 0 && itm.quantity <= itm.stock ? "text-green-500 font-mono text-lg" : "text-red-500 font-mono text-lg"}>{itm.stock > 0  && itm.quantity <= itm.stock ? "InStock" : "NoStock"}</h4>
                            <h4 className='text-md font-semibold'>Price: <BiRupee className=' inline-block' />{itm.price}</h4>
                            </div>
                          </div>
                             <div>
-                               <select className='border p-1 dark:text-black' onChange={(e)=>quantityUpdateHandler(itm._id , e.target.value)}>
+                               <select className='border p-1 dark:text-black' onChange={(e)=>{ if(e.target.value <= itm.stock){ quantityUpdateHandler(itm._id , e.target.value)} else{ deleteHandler1(itm.title); toast.warning("Out Of Stock")}}}>
                                 <option value={itm.quantity} selected disabled>{itm.quantity}</option>
                                  <option value='1'>1</option>
                                  <option value='2'>2</option>

@@ -79,7 +79,7 @@ const SingleProduct = () => {
    const BuyingHandler = ()=>{
  
         if(User.length === undefined  && User ){  
-              setAddress1(true) 
+              setAddress1(true)
         }
         else{
              navigate('/login')
@@ -332,7 +332,7 @@ catch(err){
                     </div>
                     <div className='flex gap-4'>
                         <h4 className='flex items-center bg-green-400 p-0.5 px-1 rounded-md'>{data?.data.rating} <AiFillStar className=' text-amber-400'/></h4>
-                        <h4 className={data?.data.stock > 0 ? "bg-green-500 py-0.5 rounded-md text-white font-mono px-2" : "bg-red-500"}>{data?.data.stock > 0 ? "InStock" : "OutofStock"}</h4>
+                        <h4 className={data?.data.stock > 0 &&  quantity <=  data?.data?.stock ? "bg-green-500 py-0.5 rounded-md text-white font-mono px-2" : "bg-red-500 py-0.5 rounded-md text-white font-mono px-2"}>{data?.data.stock > 0 && quantity <=  data?.data?.stock ? "InStock" : "OutofStock"}</h4>
                     </div>
                     <div className='flex dark:text-black'>
                         <button className='border bg-white font-bold px-2.5' onClick={()=>{ quantity <= 1 ? setQuantity(1) : setQuantity(quantity-1)}}>-</button>
@@ -340,7 +340,7 @@ catch(err){
                         <button className='border bg-white font-bold px-2.5' onClick={()=>{ quantity >= 5 ? setQuantity(1) : setQuantity(quantity+1)}}>+</button>
                     </div>       
                       <div className='w-full sm:w-[20rem] flex flex-col gap-1'>
-                        <button className='bg-blue-400 p-1 rounded-md text-white font-semibold w-full' onClick={()=>{if(User.length === undefined  && User){BuyingHandler()}else{navigate('/login')}}}>Buy</button>
+                        <button className='bg-blue-400 p-1 rounded-md text-white font-semibold w-full' onClick={()=>{if(User.length === undefined  && User){BuyingHandler()}else{navigate('/login')}}} disabled={ quantity >  data?.data?.stock ? true : false}>Buy</button>
                         
                           <button className={data?.data?.typeofProduct === 'offerproduct' ? 'hidden':'text-white font-serif w-full'}>
                             {

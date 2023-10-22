@@ -117,26 +117,33 @@ return (
    <div className='w-full'>
     <div className='max-w-[96rem] m-auto  dark:bg-slate-950'>
       <div className='p-7 relative'>
-        <h4 className='text-3xl mb-5 font-thin dark:text-white dark:bg-slate-950'>Latest Products</h4>
-          <div className='max-w-[90rem] m-auto overflow-hidden  slide-img scroll-smooth flex'>
-             <div className='flex gap-5'> 
+        <h4 className='text-xl sm:text-3xl mb-5 font-thin dark:text-white dark:bg-slate-950'>Latest Products</h4>
+          <div className='sm:min-h-[15rem] m-auto overflow-hidden  slide-img scroll-smooth flex'>
+             
+             
+             
              {
-                  isLoading ?
-                  <div className='flex dark:text-white'>
-                          <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          <span className='font-mono text-xl'>Loding...</span>
-                  </div>
-                 :
+                isLoading &&
+                <div className='w-full flex justify-center dark:text-white'>
+                        <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span className='font-mono text-xl'>Loding...</span>
+                </div>
+             }    
+             
+                
+             
+             <div className='flex gap-5'> 
+              {
                  data?.data?.map((itm , index)=>(   
                    
-                  <div className='w-[15rem] min-h-60 shadow-md p-2 border flex flex-col gap-2 dark:bg-slate-900 dark:text-white dark:border-slate-500' key={index}>
+                  <div className='w-[20rem] sm:w-[15rem] min-h-44 sm:min-h-60 shadow-md p-2 border flex  sm:flex-col gap-2 dark:bg-slate-900 dark:text-white dark:border-slate-500' key={index}>
                         <NavLink to={`/singleproduct/${itm._id}`}>
-                          <img  src={itm?.thumbnail} alt='thumbnail' className={"w-full h-32"}/>
+                          <img  src={itm?.thumbnail} alt='thumbnail' className="w-[10rem] sm:w-full h-32"/>
                         </NavLink>
-                        <div className=''>
+                        <div className='w-[10rem] sm:w-auto'>
                           <h4 className='text-lg font-mono truncate'>{itm.title}</h4>
                           <h4 className='text-md font-extralight flex items-center bg-green-400 w-14 px-2 py-0.5 rounded-md'>{itm.rating} <span><AiFillStar className=' text-amber-500'/></span></h4>
                           <div className='flex justify-between p-0.5'>
@@ -166,9 +173,9 @@ return (
                  ))
                }
              </div>
-             <div className={isLoading ? "hidden" : 'w-[92%] sm:w-[95%] absolute top-44 flex  justify-between '}>
-               <button className='text-[2.5rem] bg-blue-200 rounded-sm' onClick={leftScrollHandler}><AiOutlineLeft /></button>
-               <button className='text-[2.5rem] bg-blue-200 rounded-sm' onClick={rightScrollHandler}><AiOutlineRight /></button>
+             <div className={isLoading ? "hidden" : 'w-[92%] sm:w-[95%] absolute  top-36 sm:top-44 flex  justify-between '}>
+               <button className='text-xl sm:text-[2.5rem] bg-blue-200 rounded-sm' onClick={leftScrollHandler}><AiOutlineLeft /></button>
+               <button className='text-xl sm:text-[2.5rem] bg-blue-200 rounded-sm' onClick={rightScrollHandler}><AiOutlineRight /></button>
              </div>
           </div>
       </div>

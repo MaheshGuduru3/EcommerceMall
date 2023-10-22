@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { NavLink , Outlet, useNavigate } from 'react-router-dom'
 import { MdLocationPin ,MdFavoriteBorder } from 'react-icons/md'
 import { GoSearch } from 'react-icons/go'
@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { LogOut, setCerdentials, setThemeMode } from '../../features/userInfo/UserSlice'
 import {  useGetVerifyUserMutation, useGoogleSignInMutation } from '../../features/userInfo/userApi'
-import { useGetCartlistQuery, useGetFilterTitleMutation } from '../../features/products/productApi' 
+import { useGetCartlistQuery, useGetFilterTitleMutation, useGetWishListQuery } from '../../features/products/productApi' 
 
 
 const Header = () => {
@@ -21,7 +21,7 @@ const Header = () => {
   
   const navigate = useNavigate()
   
-  const [filtername , { data:data1 , error }] = useGetFilterTitleMutation() 
+  const [filtername , { data:data1 }] = useGetFilterTitleMutation() 
 
   const {  User , theme  , token , google}  = useSelector(state=>state.userslice)
          
@@ -41,6 +41,9 @@ const Header = () => {
   //
   const { data } = useGetCartlistQuery(User.email)  
   
+  const { data:wish } = useGetWishListQuery(User.email)    
+
+
   const [googleSignIn ] = useGoogleSignInMutation()
    
   //handler function the getting the pincode and set the pincode state
@@ -102,24 +105,27 @@ const Header = () => {
 const filterTitleHandler = async (e)=>{
   setSearching(e.target.value)
   try{
-    const resultNames = await filtername(searching).unwrap()
+     await filtername(searching).unwrap()
   }
   catch(err){
     toast.error(err)
   }
   
 }
-   
+
+
+
+
 useEffect(()=>{
-  
   const googlesignin = async()=>{
+       
           try{
             const result = await googleSignIn().unwrap()
             if(result){
               dispatch(setCerdentials(result.data))
               toast.success("Logged In")
             }
-
+  
         }
       catch(error){
         if(error.status === "FETCH_ERROR"){
@@ -129,30 +135,32 @@ useEffect(()=>{
           toast.error(error.data.message)
           navigate('/register') 
         }
-        
-         dispatch(setCerdentials([]))      
-         toast.error("Session Expired, please login again.")
-         navigate('/') 
-      }
-  }   
-
-   
-
-  const res = async()=>{
-         try{
-            const result = await verify().unwrap()
-            if(result){
-                toast.success(result.message)
-                dispatch(setCerdentials(result.data))  
-            }
-         }
-         catch(err){
+        else{
           dispatch(setCerdentials([]))      
           toast.error("Session Expired, please login again.")
-          navigate('/')  
-         }
- 
-  } 
+          navigate('/') 
+        }
+      }
+  }   
+  
+       
+  
+    const res = async()=>{
+           try{
+              const result = await verify().unwrap()
+              if(result){
+                  toast.success(result.message)
+                  dispatch(setCerdentials(result.data))  
+              }
+           }
+           catch(err){
+            dispatch(setCerdentials([]))      
+            toast.error("Session Expired, please login again.")
+            navigate('/')  
+           }
+   
+    } 
+  
  if(token){
     if(google){
        googlesignin()
@@ -161,14 +169,14 @@ useEffect(()=>{
       res()
     }
  }
-},[])
+},[]) 
 
 return (
     <div>
     <div className='w-full bg-blue-600  dark:bg-slate-900 fixed z-20'>
       <div className='h-[3.5rem] m-auto'>
           <div className='max-w-[96rem] m-auto md:bg-blue-600 flex items-center p-1 justify-evenly dark:bg-slate-900'>
-              <div className='sm:w-[8rem] w-[8.5rem]'>
+              <div className='sm:w-[8rem] w-[5rem]'>
                 <NavLink to='' className='text-white  sm:font-medium sm:text-[1.4rem] text-[0.85rem] font-bold'>MyZoneMall</NavLink>  
               </div>
               <div className='hidden md:block'>
@@ -204,7 +212,7 @@ return (
                 </div>   
                 }
               </div>
-              <div className='sm:w-[32%] w-[15rem] bg-black border'>
+              <div className='sm:w-[32%] w-[10rem] bg-black border'>
                 <form className='flex' onSubmit={(e)=>handlerSubmitTitle(e)}>   
                     <input className='form-input sm:w-[29rem] w-full border-none focus:outline-none' type='search' value={searching} placeholder='searching' onKeyDown={(e)=>{if(e.key === "Enter"){handlerFilterTitle()}}} onChange={(e)=>filterTitleHandler(e)} />
                      <button className='form-input border-none'><GoSearch className=''/></button>
@@ -224,7 +232,7 @@ return (
                             <ul>
                                 {
                                 data1?.data?.map((itm , index)=>(
-                                  <li className='border-b-2 p-1 text-lg font-mono w-full cursor-pointer' key={index} onClick={()=>setSearching(itm.title)}>{itm.title}</li>
+                                  <li className='border-b-2 p-1 text-sm sm:text-lg font-mono w-full cursor-pointer' key={index} onClick={()=>setSearching(itm.title)}>{itm.title}</li>
                                 ))
                                 }
                             </ul>
@@ -232,7 +240,7 @@ return (
                       </div> 
                   }
               </div>
-              <div className='lg:w-[20rem] md:w-[12rem] sm:w-[12rem] w-[12rem] md:relative flex  justify-end gap-5 sm:justify-evenly items-center'>
+              <div className='lg:w-[20rem] md:w-[12rem] sm:w-[12rem] w-[5rem] md:relative flex  justify-between sm:justify-evenly items-center'>
               <div className='hidden sm:w-[15%] sm:block'>         
                   <NavLink className='flex' to={User.length === undefined  && User ? `/cart/${User.email}` : '/login'}> 
                       <BsCartCheck  className='h-10 w-[1.4rem] text-white '/>
@@ -252,7 +260,7 @@ return (
                   <div>
            
                    <button className='w-[5rem] h-10' onClick={()=>setProfileToggle(!profileToggle)}>
-                      {User.profile ? <img  src={User.profile} alt='images' className='w-10 h-10 rounded-3xl' referrerPolicy='no-referrer' /> :
+                      {User.profile ? <img  src={User.profile} alt='images' className='w-7 h-7 sm:w-10 sm:h-10 rounded-3xl' referrerPolicy='no-referrer' /> :
                         <div><BsPersonCircle className='text-3xl text-white' /></div>
                       }
                      
@@ -264,27 +272,27 @@ return (
                        <div className= 'bg-white rounded-md  w-[12rem] h-96 p-5 shadow-lg dark:bg-slate-950'> 
                             <div className='flex flex-col justify-between h-80'>
                               <div className='flex flex-col gap-2 dark:text-white'>
-                                <NavLink to={`/profile/${User._id}`} className='flex items-center gap-3 text-lg'>
+                                <NavLink to={`/profile/${User._id}`} className='flex items-center gap-3 text-lg' onClick={()=>setProfileToggle(false)}>
                                     <BiUserPin className='text-2xl text-blue-500' />
                                   <h4 className='font-medium hover:-translate-y-2'>Myprofile</h4>
                                  </NavLink>
-                                 <NavLink to={`/wishlist/${User.email}`} className='flex items-center gap-3 text-lg'>
+                                 <NavLink to={`/wishlist/${User.email}`} className='flex items-center gap-3 text-lg' onClick={()=>setProfileToggle(false)}>
                                    <MdFavoriteBorder className='text-2xl text-blue-500' />
-                                  <h4 className='font-medium hover:-translate-y-2'>My Wishlist</h4>
+                                   <h4 className='font-medium hover:-translate-y-2'>My Wishlist <span className='text-red-200  px-1 py-0.5 text-sm  rounded-lg bg-red-500'>{wish?.data?.length >= 1 ? wish?.data?.length : "0" }</span></h4>
                                  </NavLink>
-                                 <NavLink to={`/orderitems/${User.email}`} className='flex items-center gap-3 text-lg'>
+                                 <NavLink to={`/orderitems/${User.email}`} className='flex items-center gap-3 text-lg' onClick={()=>setProfileToggle(false)}>
                                    <BiCartAdd className='text-2xl text-blue-500' />
                                   <h4 className='font-medium hover:-translate-y-2'>Your order</h4>
                                  </NavLink>
-                                 <NavLink className='flex items-center gap-3 text-lg sm:hidden' to={User.length === undefined  && User ? `/cart/${User.email}` : '/login'}> 
+                                 <NavLink className='flex items-center gap-3 text-lg sm:hidden' to={User.length === undefined  && User ? `/cart/${User.email}` : '/login'} onClick={()=>setProfileToggle(false)}> 
                                     <BsCartCheck  className='text-2xl text-blue-500'/>
-                                    <h4 className='font-medium hover:-translate-y-2'>Cart{data?.data?.length >= 1 ? data?.data?.length : "" }</h4>
+                                    <h4 className='font-medium hover:-translate-y-2'>Cart <span className='text-red-200  px-1 py-0.5 text-sm  rounded-lg bg-red-500'>{data?.data?.length >= 1 ? data?.data?.length : "0" }</span></h4>
                                 </NavLink>
                               </div>
           
                                <div className='flex flex-col gap-2 dark:text-white'>
                                 <hr />
-                                 <button className='flex items-center gap-3 text-lg' onClick={()=>{ toast.warning("Logged Out") ; dispatch(LogOut())}}>
+                                 <button className='flex items-center gap-3 text-lg' onClick={()=>{ toast.warning("Logged Out") ; dispatch(LogOut()) ; setProfileToggle(false)}}>
                                     <BiLogOut className='text-2xl' />
                                     <h4 className='font-bold hover:-translate-y-2'>Sign Out</h4>
                                   </button>
@@ -311,9 +319,9 @@ return (
                   </div>
                 :
                 <div>
-                <button className='text-white hover:border  rounded-md w-[5rem] h-10' onClick={()=>setSign(!sign)}>
+                <button className='text-white hover:border  rounded-md  w-[3rem] sm:w-[5rem] h-10' onClick={()=>setSign(!sign)}>
                     <h6 className='text-xs font-bold'>Hello!</h6>
-                    <h4 className='text-sm font-thin'>SignIn/Up</h4>
+                    <h4 className='text-xs sm:text-sm font-thin'>SignIn/Up</h4>
                 </button>
                 {sign && 
                 

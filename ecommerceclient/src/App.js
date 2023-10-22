@@ -22,9 +22,9 @@ import { useGetLatestProdsQuery } from "./features/products/productApi";
 import server from './assests/servererror.gif'
 function App() {
    
-  const { theme  , User } = useSelector(state=>state.userslice)
+  const { theme } = useSelector(state=>state.userslice)
 
-  const { data , isError , isLoading  , isFetching} = useGetLatestProdsQuery()
+  const {isError } = useGetLatestProdsQuery()
       
  
   useEffect(()=>{  
@@ -49,9 +49,10 @@ function App() {
     <div className="w-full">  
       
       {
-          false ? 
-          <div className="max-w-[96rem] m-auto flex justify-center">
-           <img  src={server} className="w-[20rem] "/>
+          isError ? 
+          <div className="max-w-[96rem] m-auto flex flex-col items-center">
+           <img  src={server} className=" w-[10rem] sm:w-[20rem]" alt="server-side-error"/>
+           <h4 className="text-lg font-mono">500 server side error</h4>
           </div>
        : 
       <>

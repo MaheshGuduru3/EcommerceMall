@@ -24,6 +24,7 @@ const YourOrder = () => {
  
                    <div className='w-full md:w-[50rem] min-h-48 shadow-md p-2 border  flex  gap-2 flex-col  md:flex-row md:items-center md:justify-evenly dark:bg-slate-900 dark:text-white dark:border-slate-500' key={index}>
                          <div>
+                           <h4 className='p-2 text-md font-light'>Date Of Order  : {(itm.createdAt)}</h4>
                            <img  src={itm?.products[0]?.thumbnail} alt='thumbnail' className='w-full  md:w-[15rem] h-44'/>
                          </div>
                          <div className='w-full md:w-[20rem]'>

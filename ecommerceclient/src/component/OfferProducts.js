@@ -18,31 +18,34 @@ const OfferProducts = () => {
     }
 
     return (
-    <div>    
+    <div className='max-w-[96rem] m-auto'>    
        <div className='p-6 relative'>   
-        <h4 className='max-w-[96rem] m-auto text-3xl mb-5 font-thin dark:text-white'>Offer Products</h4>
-        <div className='min-h-[20rem] flex bg-slate-200 rounded-lg overflow-hidden scroll-smooth slide-img1 dark:bg-slate-800'>
-             <div className='p-6'>
-                <div className='flex gap-5'>                
-                {
-                         isLoading  &&
+        <h4 className='text-xl sm:text-3xl mb-5 font-thin dark:text-white'>Offer Products</h4>
+        <div className='sm:min-h-[20rem]  flex  bg-slate-200 rounded-lg overflow-hidden scroll-smooth slide-img1 dark:bg-slate-800'>
+             <div className='w-full p-4'>
+                     {    
+                       isLoading  &&     
                       
-                        <div className='flex justify-center dark:text-white'>
+                        <div className='w-full flex justify-center dark:text-white'>
                           <svg className="animate-spin -ml-1 mr-3 h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                           </svg>
                           <span className='font-mono text-xl'>Loding...</span>
                       </div>
-                }
+                  }
+              </div>
+             
+             <div className='flex   gap-5'>                
+               
                {
                  data?.data?.map((itm , index)=>(
 
-                  <NavLink  to={`/singleproduct/${itm._id}`} className='w-[15rem] min-h-60 shadow-md p-2 border  flex flex-col gap-2 dark:bg-slate-900 dark:text-white dark:border-slate-500' key={index}>
+                  <NavLink  to={`/singleproduct/${itm._id}`} className='w-[18rem] sm:w-[15rem] min-h-44 sm:min-h-60 shadow-md p-2 border  flex sm:flex-col gap-2 dark:bg-slate-900 dark:text-white dark:border-slate-500' key={index}>
                         <div>
-                          <img  src={itm.thumbnail} alt='thumbnail' className="w-full h-32"/>
+                          <img  src={itm.thumbnail} alt='thumbnail' className="w-[18rem] sm:w-full h-32"/>
                         </div>
-                        <div className=''>
+                        <div className='w-[10rem] sm:w-auto'>
                           <h4 className='text-lg font-mono truncate'>{itm.title}</h4>
                           <h4 className='text-md font-extralight'>Rating:{itm.rating}</h4>
                           <div className='flex justify-between p-0.5'>
@@ -58,10 +61,10 @@ const OfferProducts = () => {
                  ))
                }    
              </div>
-             </div>
-            <div className='w-[92%] md:w-[96%] absolute top-44 flex  justify-between '>
-               <button className='text-[2.5rem] bg-blue-200 rounded-sm' onClick={leftScrollHandler1}><AiOutlineLeft /></button>
-               <button className='text-[2.5rem] bg-blue-200 rounded-sm' onClick={rightScrollHandler1}><AiOutlineRight /></button>
+            
+            <div className='w-[92%] md:w-[96%] absolute top-36 sm:top-44 flex  justify-between '>
+               <button className='text-xl sm:text-[2.5rem] bg-blue-200 rounded-sm' onClick={leftScrollHandler1}><AiOutlineLeft /></button>
+               <button className='text-xl sm:text-[2.5rem] bg-blue-200 rounded-sm' onClick={rightScrollHandler1}><AiOutlineRight /></button>
              </div>
         </div>
        </div>

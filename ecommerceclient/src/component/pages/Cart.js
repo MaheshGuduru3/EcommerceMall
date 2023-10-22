@@ -73,7 +73,7 @@ const Cart = () => {
           initialValues: initialInfo,
           validationSchema: validationAddress,
           onSubmit :  async (data)=>{
-              const {  username , email , phonenumber , pincode , address } =  data
+              const {  username , phonenumber , pincode , address } =  data
               const  sendData = {
                     username,
                     email:User.email,

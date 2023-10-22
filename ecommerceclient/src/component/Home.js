@@ -55,7 +55,7 @@ return (
           <div>
               <div className='relative' style={{zIndex:'1'}}>
                    <div className='w-full'>
-                    <img src={imgs[count].img} className='w-full md:h-[30rem] sm:h-[20rem] h-[15rem]'  />
+                    <img src={imgs[count].img}  alt={imgs[count].img} className='w-full md:h-[30rem] sm:h-[20rem] h-[15rem]'  />
                    </div>
                    <div className='w-full  absolute  top-28  flex justify-between px-5' >   
                        <button className='text-xl sm:text-4xl' onClick={()=>count <= 0 ? setCount(imgs.length-1): setCount(count-1)}><AiOutlineLeft /></button>

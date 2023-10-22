@@ -3,7 +3,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { NavLink  , useNavigate} from 'react-router-dom'
 import { useFormik } from 'formik'
 import { validationSignIn } from '../../formValidateSchema/forms'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {  setGoogle, setToken } from '../../features/userInfo/UserSlice'
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 import { app } from '../../firebase/config/firebase.config'
@@ -11,10 +11,9 @@ import { toast  , ToastContainer} from 'react-toastify'
 import { useGetSignInUserMutation } from '../../features/userInfo/userApi'
 
 const Login = () => {
-   const navigate = useNavigate()
-   const { token } = useSelector(state=>state.userslice)  
+   const navigate = useNavigate() 
    const dispatch = useDispatch()    
-   const [userSignIn , {data , isLoading}] = useGetSignInUserMutation()  
+   const [userSignIn , { isLoading}] = useGetSignInUserMutation()  
    
    
     

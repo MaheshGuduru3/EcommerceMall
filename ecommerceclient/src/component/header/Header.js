@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink , Outlet, useNavigate } from 'react-router-dom'
 import { MdLocationPin ,MdFavoriteBorder } from 'react-icons/md'
 import { GoSearch } from 'react-icons/go'
@@ -259,7 +259,7 @@ return (
                   User.length === undefined  && User ?  
                   <div>
            
-                   <button className='w-[5rem] h-10' onClick={()=>setProfileToggle(!profileToggle)}>
+                   <button className='sm:w-[5rem] h-10' onClick={()=>setProfileToggle(!profileToggle)}>
                       {User.profile ? <img  src={User.profile} alt='images' className='w-7 h-7 sm:w-10 sm:h-10 rounded-3xl' referrerPolicy='no-referrer' /> :
                         <div><BsPersonCircle className='text-3xl text-white' /></div>
                       }
@@ -319,13 +319,13 @@ return (
                   </div>
                 :
                 <div>
-                <button className='text-white hover:border  rounded-md  w-[3rem] sm:w-[5rem] h-10' onClick={()=>setSign(!sign)}>
+                <button className='text-white hover:border  rounded-md  w-[3.2rem] sm:w-[5rem] h-10' onClick={()=>setSign(!sign)}>
                     <h6 className='text-xs font-bold'>Hello!</h6>
                     <h4 className='text-xs sm:text-sm font-thin'>SignIn/Up</h4>
                 </button>
                 {sign && 
                 
-                <div className='absolute top-16 z-10'>
+                <div className='absolute top-16 right-0 z-10'>
                      <div className='bg-white w-[5rem] p-3 rounded-sm mt-1'>
                           <NavLink to='/login' ><button className='text-md font-medium hover:font-light'>SignIn</button></NavLink>
                           <NavLink to='/register'><button className='text-md font-medium hover:font-light'>SignUp</button></NavLink>

@@ -230,7 +230,7 @@ return (
                   {
                       searching.length > 0 && 
                         <div className='absolute mt-1 w-[40%] xl:w-[30.5rem]'>
-                          <div className='bg-white  h-44 rounded-md p-2 w-full overflow-scroll dark:bg-slate-900 dark:text-white'>
+                          <div className='bg-white  h-44 rounded-md p-2 w-full  overflow-y-scroll dark:bg-slate-900 dark:text-white'>
                             <ul>
                                 {
                                 data1?.data?.map((itm , index)=>(

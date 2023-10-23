@@ -15,7 +15,7 @@ const Categories = () => {
           <NavLink className='text-md sm:text-xl flex  items-center font-serif hover:text-blue-400' to='/products' >Allproducts<AiOutlineArrowRight className='mx-1'/></NavLink>
        </div>
        <div> 
-             <div className='sm:h-[15rem] shadow-xl overflow-scroll flex'>
+             <div className='sm:h-[15rem] shadow-xl overflow-scroll category flex'>
                  <div className='w-full'>
                  {
                           isLoading  &&

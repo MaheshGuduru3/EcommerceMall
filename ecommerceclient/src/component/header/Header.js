@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { NavLink , Outlet, useNavigate } from 'react-router-dom'
 import { MdLocationPin ,MdFavoriteBorder } from 'react-icons/md'
 import { GoSearch } from 'react-icons/go'
@@ -14,6 +14,8 @@ import { useGetCartlistQuery, useGetFilterTitleMutation, useGetWishListQuery } f
 
 const Header = () => {
   
+  const refs = useRef()
+
   const dispatch = useDispatch()
   //useState for getting the pincode and store in these state.
   const [pincode , setPincode] = useState('')
@@ -214,7 +216,7 @@ return (
               </div>
               <div className='sm:w-[32%] w-[10rem] bg-black border'>
                 <form className='flex' onSubmit={(e)=>handlerSubmitTitle(e)}>   
-                    <input className='form-input sm:w-[29rem] w-full border-none focus:outline-none' type='search' value={searching} placeholder='searching' onKeyDown={(e)=>{if(e.key === "Enter"){handlerFilterTitle()}}} onChange={(e)=>filterTitleHandler(e)} />
+                    <input className='form-input sm:w-[29rem] w-full border-none focus:outline-none' type='search' ref={refs} value={searching} placeholder='searching' onKeyDown={(e)=>{if(e.key === "Enter"){handlerFilterTitle()}}} onChange={(e)=>filterTitleHandler(e)} />
                      <button className='form-input border-none'><GoSearch className=''/></button>
                 </form>
                   {
@@ -232,7 +234,7 @@ return (
                             <ul>
                                 {
                                 data1?.data?.map((itm , index)=>(
-                                  <li className='border-b-2 p-1 text-sm sm:text-lg font-mono w-full cursor-pointer' key={index} onClick={()=>setSearching(itm.title)}>{itm.title}</li>
+                                  <li className='border-b-2 p-1 text-sm sm:text-lg font-mono w-full cursor-pointer' key={index} onClick={()=>{setSearching(itm.title); refs.current.focus()}}>{itm.title}</li>
                                 ))
                                 }
                             </ul>

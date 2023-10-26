@@ -8,7 +8,7 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { LogOut, setCerdentials, setThemeMode } from '../../features/userInfo/UserSlice'
-import {  useGetVerifyUserMutation, useGoogleSignInMutation } from '../../features/userInfo/userApi'
+import {   useGetVerifyUserMutation, useGoogleSignInMutation } from '../../features/userInfo/userApi'
 import { useGetCartlistQuery, useGetFilterTitleMutation, useGetWishListQuery } from '../../features/products/productApi' 
 
 
@@ -28,7 +28,7 @@ const Header = () => {
   const {  User , theme  , token , google}  = useSelector(state=>state.userslice)
          
    
-  const [verify] = useGetVerifyUserMutation()          
+         
 
   //usestate for toggle the window to enter the pincode 
   const [togglePincode , setTogglePincode] = useState(false)
@@ -47,7 +47,9 @@ const Header = () => {
 
 
   const [googleSignIn ] = useGoogleSignInMutation()
-   
+  
+  const [verify] = useGetVerifyUserMutation()    
+  
   //handler function the getting the pincode and set the pincode state
   const handlerSubmitPincode = (e)=>{  
            e.preventDefault() 
@@ -116,8 +118,6 @@ const filterTitleHandler = async (e)=>{
 }
 
 
-
-
 useEffect(()=>{
   const googlesignin = async()=>{
        
@@ -144,24 +144,22 @@ useEffect(()=>{
         }
       }
   }   
-  
-       
-  
-    const res = async()=>{
-           try{
-              const result = await verify().unwrap()
-              if(result){
-                  toast.success(result.message)
-                  dispatch(setCerdentials(result.data))  
-              }
-           }
-           catch(err){
-            dispatch(setCerdentials([]))      
-            toast.error("Session Expired, please login again.")
-            navigate('/')  
-           }
-   
-    } 
+
+  const res = async()=>{
+    try{
+        const result = await verify().unwrap()
+     if(result){
+         toast.success(result.message)
+         dispatch(setCerdentials(result.data))  
+     }
+  }
+  catch(err){
+   dispatch(setCerdentials([]))      
+   toast.error("Session Expired, please login again.")
+   navigate('/')  
+  }
+
+}
   
  if(token){
     if(google){

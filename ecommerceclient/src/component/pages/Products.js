@@ -2,19 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { MdFavoriteBorder,MdOutlineFavorite } from 'react-icons/md'
 import { AiFillStar } from 'react-icons/ai'
 import { toast } from 'react-toastify'
-import { NavLink, useNavigate } from 'react-router-dom' 
+import { NavLink, useNavigate, useSearchParams } from 'react-router-dom' 
 import { useSelector } from 'react-redux'
 import { useGetAllProductsQuery, useGetCartlistQuery, useGetDeleteWishlistMutation, useGetWishListQuery, useGetaddCartlistMutation, useGetdeleteCartlistMutation, useGetmakeWishListMutation } from '../../features/products/productApi'
 
 const Products = () => {
-    const [page , setPage] = useState(1)
+    const [page , setPage] = useState(1)   
     const [pageNumber, setPageNumber] = useState(0)
     const navigate = useNavigate()
     
     const { User } = useSelector(state=>state.userslice)
 
-  
-    const { data , isLoading} = useGetAllProductsQuery()
+     const [filters , setFilters] = useSearchParams()  
+     
+   
+
+    const { data , isLoading} = useGetAllProductsQuery(page)
+    
+ 
+    
  
     
     const { data:data1} = useGetWishListQuery(User.email)
@@ -111,20 +117,19 @@ const prodDeleteWishHandler = async (title)=>{
     }
 }  
 
-
-
-
 useEffect(()=>{
-  if(data?.data?.length > 0){   
-    setPageNumber(Math.ceil(data?.data?.length/15))     
-  }
+        if(isLoading){
+
+        }
+        else if(data?.data?.length > 0){   
+            setPageNumber(Math.ceil(data?.Total/15))     
+          }
+  
 },[data?.data])
+ 
 return (
     <div className='w-[100%] relative top-14'>
         <div className='max-w-[96rem] m-auto mobile'>
-            <div>
-                 
-                  <div>
                       <h4 className='text-3xl font-semibold'>products</h4>
                       <div className='flex flex-wrap justify-center  p-2 gap-5'>                
                       {
@@ -138,7 +143,7 @@ return (
                         </div>
                       }
                      {
-                        data?.data?.slice(((page-1)*15),((page)*15)).map((itm , index)=>(
+                        data?.data?.map((itm , index)=>(
 
                         <div className='w-[15rem] min-h-60 bg-white p-2 border  flex flex-col gap-2 dark:bg-slate-900 dark:text-white dark:border-slate-500' key={index}>
                                 <NavLink to={`/singleproduct/${itm._id}`}> 
@@ -177,19 +182,13 @@ return (
                     }
                     </div>
 
-                    <div className='text-center mt-4'>
-                        <button className='border p-1 px-2' onClick={()=> page === 1 ? setPage(1) : setPage(page-1)}>Prev</button>  
-                         {
-                            [...Array(pageNumber)].map((it,index)=>(
-                                <button className={page === index+1 ? 'border py-1 px-3 text-md text-white font-bold mx-0.5 bg-red-400': 'border py-1 px-3 text-md text-white font-bold mx-0.5 bg-blue-400'} onClick={()=>{setPage(index+1)}}>{index+1}</button>     
-                            )) 
-                         }
-                        <button className='border p-1 px-2' onClick={()=> page >= pageNumber  ? setPage(1) : setPage(page+1)}>Next</button>
+                    <div className='text-center flex  justify-center items-center gap-2 mt-4'>
+                        <button className='border p-1 px-2' onClick={()=> {page === 1 ? setPage(1)  : setPage(page-1) ; setFilters({ page : page-1 === 0 ? 1 : page-1})}}>Prev</button>  
+                         <div>page : {page} / {pageNumber}</div>
+                        <button className='border p-1 px-2' onClick={()=> {page >= pageNumber  ? setPage(1) : setPage(page+1); setFilters({ page : page+1 > pageNumber ? 1 : page + 1  })}}>Next</button>
                     </div>       
                   </div>
-            </div>
-        </div>
-    </div>  
+    </div>    
   )
 }
 

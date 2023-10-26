@@ -74,8 +74,8 @@ const productApi  = apiSlice.injectEndpoints({
                     }),
             
                     getAllProducts : builders.query({
-                         query:()=>({
-                             url:'/products'
+                         query:(data)=>({
+                             url:`/products?page=${data}` 
                          }),
                          providesTags:['products']
                     }),

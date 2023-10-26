@@ -24,27 +24,31 @@ const Login = () => {
           password:""
          },
          validationSchema:validationSignIn,
-         onSubmit: async (data1)=>{
-            try{
+         _onSubmit: async (data1) => {
+            try {
                dispatch(setGoogle(false))
                const res = await userSignIn(data1).unwrap()
-             
-               dispatch(setToken(res.token)) 
+               dispatch(setToken(res.token))
                navigate('/')
-          
             }
-            catch(err){
-   
-               if(err.status === 404){
-                   return toast.error(err.data.message)
+            catch (err) {
+
+               if (err.status === 404) {
+                  return toast.error(err.data.message)
                }
 
-               if(err.status === "FETCH_ERROR"){
+               if (err.status === "FETCH_ERROR") {
                   return toast.error("server not found")
                }
             }
-           
-         }
+
+         },
+         get onSubmit() {
+            return this._onSubmit
+         },
+         set onSubmit(value) {
+            this._onSubmit = value
+         },
       })
 
 

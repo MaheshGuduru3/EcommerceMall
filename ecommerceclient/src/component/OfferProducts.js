@@ -62,7 +62,7 @@ const OfferProducts = () => {
                }    
              </div>
             
-            <div className='w-[92%] md:w-[96%] absolute top-36 sm:top-44 flex  justify-between '>
+            <div className={isLoading ? "hidden" : 'w-[92%] sm:w-[95%] absolute  top-36 sm:top-44 flex  justify-between '}>
                <button className='text-xl sm:text-[2.5rem] bg-blue-200 rounded-sm' onClick={leftScrollHandler1}><AiOutlineLeft /></button>
                <button className='text-xl sm:text-[2.5rem] bg-blue-200 rounded-sm' onClick={rightScrollHandler1}><AiOutlineRight /></button>
              </div>

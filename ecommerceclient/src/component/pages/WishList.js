@@ -7,12 +7,12 @@ import { useGetCartlistQuery, useGetDeleteWishlistMutation, useGetWishListQuery,
 
 const WishList = () => {
    const param = useParams()
-   const { data , isLoading} = useGetWishListQuery(param.email) 
    
-
+   
    const navigate = useNavigate()
    
    const { User } = useSelector(state=>state.userslice)
+   const { data , isLoading} = useGetWishListQuery( User.length === undefined && User && param.email) 
 
    const [deleteWish1] = useGetDeleteWishlistMutation()
    const deleteWishHandler1 = async (title)=>{
@@ -28,7 +28,7 @@ const WishList = () => {
      }
    }
 
-   const {data:data2} = useGetCartlistQuery(User.email)
+   const {data:data2} = useGetCartlistQuery(User.length === undefined && User && User.email)
    const [addCart]  = useGetaddCartlistMutation()
    const [deleteCart] = useGetdeleteCartlistMutation()
 

@@ -8,8 +8,7 @@ const YourOrder = () => {
   const param = useParams()
 
   const { data , isLoading} = useGetUserOrdersQuery(param.email)
-  
-   console.log(isLoading)  
+ 
   
   return (
     <div className='max-w-[96rem] m-auto relative top-14 p-2 mobile dark:bg-slate-950'>
@@ -56,7 +55,9 @@ const YourOrder = () => {
  
                   ))
                }
+               
                </div>
+
               </div>
 }
 {

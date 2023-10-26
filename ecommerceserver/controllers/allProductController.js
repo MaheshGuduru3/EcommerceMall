@@ -30,12 +30,14 @@ const getLatestProds = async(req,res)=>{
 }
 
 const  getproducts = async(req,res)=>{
+          const result = req.query
+          const page = result.page || 1
           
-      try{
-        
-          const  result = await allproducts.find()
+      try{       
+          const  result = await allproducts.find().skip((page-1)*15).limit(15)
+          const  total = await allproducts.find().countDocuments()
           if(result){
-             res.status(200).json({message:"success" , data:result})
+             res.status(200).json({message:"success" , data:result , Total:total , resl: result.length , pageNo:page})
           }    
        }
        catch(err){

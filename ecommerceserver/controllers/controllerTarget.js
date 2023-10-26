@@ -47,12 +47,10 @@ const userSignIn = async (req,res)=>{
                 const jwtToken = await jwt.sign({id : result._id}, process.env.JWT_SECRET_KEY, {
                      expiresIn:'1h'
                 })
-             
                 
-              
-             
-                  res.status(200).json({message:"successfully logged" , "token":jwtToken})
-                  
+                res.cookie('jwt', jwtToken)
+        
+                res.status(200).json({message:"successfully logged", token:jwtToken})
              }   
              else{  
                 res.status(404).json({message:"Invalid Email or Password"})
@@ -68,21 +66,16 @@ const userSignIn = async (req,res)=>{
 }
 
 const verifyAndGetUser = async (req,res , next)=>{   
-      
-       if(req.headers.authorization){
-
-       const cToken = req.headers.authorization.split(" ")[1] 
-      
-   
-     
-        console.log(cToken) 
-            if(!cToken) {
+       
+        const cToken = req.headers.authorization.split(" ")[1]
+        
+       if(req.headers){
+        if(!cToken) {
             res.status(403).json({message:"token not found"})
         }
        try{
            const jwtVerifyToken = await jwt.verify(cToken, process.env.JWT_SECRET_KEY)
-           if(jwtVerifyToken){
-               
+           if(jwtVerifyToken){         
                req.id = jwtVerifyToken.id
                next()
            }   
@@ -93,7 +86,8 @@ const verifyAndGetUser = async (req,res , next)=>{
        catch(err){
              res.status(500).json({message: err.meesage})
        }
-    }
+       }
+
 }
 
 

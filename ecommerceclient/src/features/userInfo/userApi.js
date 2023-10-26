@@ -126,7 +126,7 @@ const userApi  = apiSlice.injectEndpoints({
 
 export const {         useGetAllUsersQuery,
                        useGetSignInUserMutation,  
-                        useGetVerifyUserMutation,
+                       useGetVerifyUserMutation,
                        useCreateUserMutation , 
                        useGoogleSignUpMutation , 
                        useGoogleSignInMutation,  

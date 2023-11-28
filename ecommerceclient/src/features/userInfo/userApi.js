@@ -39,7 +39,7 @@ const userApi  = apiSlice.injectEndpoints({
 
         googleSignUp : builders.mutation({
                query: ()=>({
-                     url:"/auth/google",
+                     url:"/googlesignup",
                      method:"POST",
                }),
              invalidatesTags:['Users']

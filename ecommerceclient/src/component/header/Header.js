@@ -143,7 +143,6 @@ useEffect(()=>{
              if(result){
                  dispatch(setCerdentials(result.data))
              }
-             console.log(result)
          }
   
           catch(err){

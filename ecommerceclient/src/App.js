@@ -26,7 +26,7 @@ function App() {
    
   const { theme , User } = useSelector(state=>state.userslice)
 
- console.log(User)        
+        
 
   const {isError } = useGetLatestProdsQuery()
       

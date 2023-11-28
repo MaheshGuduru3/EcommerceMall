@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 const dotenv = require('dotenv').config()
 const cors = require('cors')
-const cookieParser = require("cookie-parser")
 const   dbConnect   = require('./database/db')
 const Allapis = require('./routers/routes')
 
@@ -10,7 +9,7 @@ const port  = process.env.PORT
 
 
 //middleware
-app.use(cookieParser())
+
 app.use(cors({
       credentials:true,
       origin:process.env.HOSTNAME
@@ -24,8 +23,8 @@ app.use('/api' , Allapis)
 dbConnect()
 
 app.get('/',(req,res)=>{
-     res.clearCookie('googleTok')
-     res.clearCookie('jwtTokenid')
+  
+ 
      res.send("Hello Ecommerce application")
 })
 

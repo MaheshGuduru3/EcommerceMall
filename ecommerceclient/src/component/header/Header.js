@@ -8,25 +8,18 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { LogOut, setCerdentials, setThemeMode } from '../../features/userInfo/UserSlice'
-import { useGetVerifyUserQuery, useGoogleSignInQuery, useLogOutUserMutation } from '../../features/userInfo/userApi'
+import {  useGetVerifyUserMutation, useGoogleSignInMutation } from '../../features/userInfo/userApi'
 import { useGetCartlistQuery, useGetFilterTitleMutation, useGetWishListQuery } from '../../features/products/productApi' 
-import cookie from 'js-cookie'
+
 
 
 const Header = () => {
   
   const refs = useRef()    
-  
-    const { data:verify , isFetching:fetch, isLoading:ve } = useGetVerifyUserQuery()
 
+    const [googlesign] = useGoogleSignInMutation()
+    const [verify] = useGetVerifyUserMutation()
 
-
-  const { data:googlesign , isFetching , isLoading , error} = useGoogleSignInQuery()
-
-      
-  useEffect(()=>{
-    toast.error(error?.data?.message)  
-  },[])
 
 
   const dispatch = useDispatch()
@@ -127,63 +120,71 @@ const Header = () => {
       
     }
     
-    const [loggedOut] = useLogOutUserMutation()
+  
   
     
     const LogOutHandler = async () => {
-        
-         let data = ''
-
-       
-
-
-         if(cookie.get('googleTok')){
-              data = 'googleTok'
-         }
-         else{
-            data = 'jwtTokenid'    
-         }
- 
-        try{
-        const result = await loggedOut(data).unwrap()
-        if(result){
-           
-            setTimeout (()=>{
-              window.location.href = '/'
-            },4000)
-          
-            toast.warning(result.message)
-        
+            
+            toast.warning("Logged Out")
             setProfileToggle(false)
+            dispatch(LogOut())
           
-          }
-        }
-        catch(err){
-          console.log(err.error)
-        }
+      
          
     }
    
   
 
 useEffect(()=>{
-  if(!googlesign) return
-  if(googlesign?.data){
-    dispatch(setCerdentials(googlesign?.data)) 
+   
+  const googleHandler = async ()=>{
+        try{
+             const result = await googlesign().unwrap()
+             if(result){
+                 dispatch(setCerdentials(result.data))
+             }
+             console.log(result)
+         }
+  
+          catch(err){
+            if(err.status === 404){
+              return  toast.error(err.data.message)
+             }
+            if(err.status === "FETCH_ERROR"){
+             return  toast.error("server Not Found..")
+            }
+            if(err.status === 403){
+             return  toast.error(err.data.message)
+            }
+        }
+        
   }
-},[googlesign?.data])
 
-
-
-
-
-useEffect(()=>{
-  if(!verify) return
-  if(verify?.data){
-    dispatch(setCerdentials(verify?.data)) 
+  const normalHandler = async ()=>{
+        try{
+              const result = await verify().unwrap()
+              if(result){
+                  dispatch(setCerdentials(result.data))
+                  toast.success("Logged In")
+              }
+        }
+        catch(err){
+              toast.error(err.error)
+        }
   }
- 
-},[verify?.data])   
+  
+
+
+
+  if(token){     
+       if(google){
+           googleHandler()
+       }
+       else{
+            normalHandler()
+       }
+    }
+},[token])
 
 
 

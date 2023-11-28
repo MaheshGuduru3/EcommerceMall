@@ -8,7 +8,7 @@ import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 import { app } from '../../firebase/config/firebase.config'
 import { toast  , ToastContainer} from 'react-toastify'
 import { useGetSignInUserMutation } from '../../features/userInfo/userApi'
-import Cookies from 'js-cookie'
+import { setGoogle, setToken } from '../../features/userInfo/UserSlice'
 
 
 const Login = () => {
@@ -25,10 +25,12 @@ const Login = () => {
          validationSchema:validationSignIn,
          onSubmit: async (data1) => {
             try {
+               dispatch(setGoogle(false))
                const res = await userSignIn(data1).unwrap()
                toast.success(res.message)
                if(res){
-                  window.location.href='/'
+                  dispatch(setToken(res.token))
+                  navigate('/')
                }
             }
             catch (err) {
@@ -46,21 +48,19 @@ const Login = () => {
 
    
   const loginGoogle = async ()=>{
-   
+       dispatch(setGoogle(true))
        const  firebaseAuth = getAuth(app)
        const googleProvide =  new GoogleAuthProvider()
        try{
          const resultGoogleLogin = await signInWithPopup(firebaseAuth , googleProvide) 
-   
-         Cookies.set('googleTok' , resultGoogleLogin.user.accessToken , {
-            
-         })    
-         window.location.href = '/'
+          if(resultGoogleLogin){
+              dispatch(setToken(resultGoogleLogin.user.accessToken))
+              navigate('/')
+          }
        }
        catch(err){
          return  toast.error("Please check your internet connection")
        }
-
   }
    
   return (

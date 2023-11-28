@@ -50,13 +50,8 @@ const userSignIn = async (req,res)=>{
                 const jwtToken = await jwt.sign({id : result._id}, process.env.JWT_SECRET_KEY, {
                      expiresIn:'1h'
                 })
-                
-                res.cookie('jwtTokenid', jwtToken , {
-                      expiresIn : 1 * 60 * 60 * 1000,
-                      httpOnly:true
-                })
         
-                res.status(200).json({message:"successfully logged"})
+                res.status(200).json({message:"successfully logged", token:jwtToken})
              }   
              else{  
                 res.status(404).json({message:"Invalid Email or Password"})
@@ -73,7 +68,7 @@ const userSignIn = async (req,res)=>{
 
 const verifyAndGetUser = async (req,res , next)=>{   
      
-        const cToken = req.cookies.jwtTokenid
+        const cToken = req.headers.authorization.split(' ')[1]
        
          if(cToken === undefined) return
 
@@ -224,11 +219,11 @@ const  VerifyAccount  = async (req,res)=>{
 
 const googleSignUp = async (req,res)=>{
   
-    const  tokenClient  = req.cookies.googleTok
+    const  tokenClient  = req.headers.authorization.split(' ')[1]
 
-  
     try{
         const decoded = await admin.auth().verifyIdToken(tokenClient)
+        console.log(decoded)
         if(decoded){         
             const  result = await user.findOne({email : decoded.email})
             if(result){
@@ -242,7 +237,7 @@ const googleSignUp = async (req,res)=>{
                      email : decoded.email,
                      profile : decoded.picture
                 })
-             
+                console.log(setData)
                 if(setData){
                     res.status(201).json({message:"Successfully created" , status:true})
                  
@@ -264,7 +259,7 @@ const googleSignUp = async (req,res)=>{
 
 const googleSignIn = async (req,res)=>{
  
-     const tokenClient =  req.cookies.googleTok
+     const tokenClient =  req.headers.authorization.split(' ')[1]
 
      if(!tokenClient) return
     
@@ -280,7 +275,7 @@ const googleSignIn = async (req,res)=>{
                
             }
             else{
-                res.clearCookie('googleTok')
+        
                 res.status(404).json({message:"Please register before login"})
          
             }
@@ -532,26 +527,7 @@ const sendingMailOrderedProducts = async(req,res)=>{
 
 
 
-const logOut = async (req,res)=>{
 
-    const   data = req.body
-  
-  
-
-    try{
-        
-        const result =   res.clearCookie(data.data)
-        if(result){
-             res.status(200).json({message:'Logged  Out'})
-        }
-        else{
-            res.status(404).json({message: "Not Found"})
-        }
-    }
-    catch(err){
-       res.status(500).json({message:err.message})
-    }
-}
 
 
 
@@ -572,5 +548,5 @@ module.exports = {
     resetPasswords,
     mailverificationAfter,
     sendingMailOrderedProducts,
-    logOut
+  
 }

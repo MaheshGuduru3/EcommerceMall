@@ -19,12 +19,12 @@ const userApi  = apiSlice.injectEndpoints({
             invalidatesTags:['Users']
         }),
          
-        getVerifyUser : builders.query({   
+        getVerifyUser : builders.mutation({   
             query: ()=>({
                url:'/verifyuser',
-               method: 'GET',
+               method: 'POST',
             }), 
-            providesTags:['Users']
+            invalidatesTags:['Users'] 
         }), 
 
 
@@ -46,12 +46,12 @@ const userApi  = apiSlice.injectEndpoints({
         }),
 
 
-        googleSignIn : builders.query({
+        googleSignIn : builders.mutation({
              query:()=>({
-                  url:"/auth/google",
-                  method:"GET"
+                  url:"/googlesignin",
+                  method:"POST"
              }),
-             providesTags:['Users']
+             invalidatesTags:['Users']
         }),
 
         getUserUpdateProfile : builders.mutation({
@@ -123,13 +123,7 @@ const userApi  = apiSlice.injectEndpoints({
      }),
 
 
-     logOutUser : builders.mutation({
-          query :(data)=>({
-             url:'/logout',
-             method:'POST',
-             body:{data} 
-          })
-     })
+  
 
        })
 })
@@ -137,10 +131,10 @@ const userApi  = apiSlice.injectEndpoints({
 
 export const {         useGetAllUsersQuery,
                        useGetSignInUserMutation,  
-                       useGetVerifyUserQuery,
+                       useGetVerifyUserMutation,
                        useCreateUserMutation , 
                        useGoogleSignUpMutation , 
-                       useGoogleSignInQuery,  
+                       useGoogleSignInMutation,  
                        useGetUserUpdateProfileMutation,
                        useAddUserAddressMutation,
                        useGetUserAddressQuery,   
@@ -149,7 +143,7 @@ export const {         useGetAllUsersQuery,
                         useGetVerifymailAfterMutation,
                           useGetVerifyMailMutation,
                           useGetDeleteAddressMutation,
-                          useLogOutUserMutation
+                    
                          
                        } = userApi
 

@@ -17,11 +17,11 @@ route.get('/users', AllUserSignUp)
 route.patch('/users/:id' , UpdateUserInfo )
 route.post('/signup' , userSignUp , sendingMailVerifyAccount)
 route.post('/signin', userSignIn)
-route.get('/verifyuser' , verifyAndGetUser , gettingUser)       
-route.post('/auth/google' , googleSignUp)
-route.get('/auth/google' , googleSignIn)
+route.post('/verifyuser' , verifyAndGetUser , gettingUser)       
+route.post('/googlesignup' , googleSignUp)
+route.post('/googlesignin' , googleSignIn)
 
-route.post('/logout' , logOut)
+
 
     
 /************** forgot password ************/   

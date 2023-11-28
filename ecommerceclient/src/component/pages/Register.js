@@ -8,7 +8,7 @@ import {  ToastContainer , toast} from 'react-toastify'
 import { getAuth , GoogleAuthProvider , signInWithPopup} from 'firebase/auth'
 import { app } from '../../firebase/config/firebase.config'
 import { useDispatch } from 'react-redux'
-import Cookies from 'js-cookie'
+import { setToken } from '../../features/userInfo/UserSlice'
 
 const initialdata = {
    username:"",
@@ -29,7 +29,6 @@ const Register = () => {
         onSubmit: async (data)=>{
             try{
                 const res = await signUp(data).unwrap()
-                console.log(res)
                 if(res.status === true){
                    toast.success(res.mail)
                    navigate('/login')  
@@ -51,12 +50,12 @@ const Register = () => {
     const  registerWithGoogle = async ()=>{
          try{
             const data1 =  await signInWithPopup(firebaseAuth , provider)
-            Cookies.set('googleTok' , data1.user.accessToken) 
+            dispatch(setToken(data1.user.accessToken)) 
             try{
                   const getSignUpData = await googleSignReg().unwrap()
                   if(getSignUpData){
                      toast.success(getSignUpData.message)
-                     window.location.href = '/'
+                     navigate('/login')
                   }
                }
                catch(err){

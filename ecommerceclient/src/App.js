@@ -24,7 +24,9 @@ const NotFound = lazy(()=> import ("./component/pages/NotFound"));
 
 function App() {
    
-  const { theme } = useSelector(state=>state.userslice)
+  const { theme , User } = useSelector(state=>state.userslice)
+
+ console.log(User)        
 
   const {isError } = useGetLatestProdsQuery()
       
@@ -66,10 +68,14 @@ function App() {
                         </svg>
                 </div>}>
        <Routes>
-        <Route  path="/login" element={<Login />}/>
-        <Route  path="/register" element={<Register />} /> 
+      
+       
+            <Route  path="/login" element={<Login />}/>
+            <Route  path="/register" element={<Register />} /> 
+
+
         <Route  path="/forgetpassword"  element={<ForgetPassword />}/>
-            <Route  path="/createpassword/:token"  element={<NewPassword />}/>
+        <Route  path="/createpassword/:token"  element={<NewPassword />}/>
          <Route path="/" element={<Header />}>
             <Route index path="/" element={<Home />} />
             <Route  path="/products"  element={<Products />}/> 
@@ -77,7 +83,7 @@ function App() {
             <Route  path="/category/:id"  element={<FilterCategoriesName />}/>
             <Route  path="/searchedproduct/:search" element={<SearchProduct />}/>
         
-            {  localStorage.getItem('token') ?     
+            {  User && User.length === undefined ?     
                <Route path="/">  
                  <Route  path="/profile/:id"  element={<Profile />} />
                  <Route  path="/purchased" element={<Success />}/>
@@ -87,7 +93,8 @@ function App() {
                  <Route  path="/verifyaccount/:token" element={<VerifyAccount />} />
                </Route>
            :
-          ""
+           
+         ""
           }
           
           <Route  path="*"  element={<NotFound />}/>

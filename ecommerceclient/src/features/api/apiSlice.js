@@ -4,15 +4,9 @@ export const apiSlice =  createApi({
         reducerPath:'api',
         baseQuery:fetchBaseQuery({
            baseUrl:`${process.env.REACT_APP_HOSTNAMED}/api`,
-           prepareHeaders: (headers, { getState }) => {
-               const token = (getState()).userslice.token;  
-               if (token) {
-                   headers.set('authorization', `Bearer ${token}`);
-               }
-               return headers
-           },
+           credentials:'include'
        }),
-       tagTypes:['users', 'cartlist', 'wishlist' , 'order' ],
-       endpoints : (builders)=>({}) 
+       tagTypes:['Users', 'cartlist', 'wishlist' , 'order' , 'Address'],
+       endpoints : (builders)=>({})   
 })
 

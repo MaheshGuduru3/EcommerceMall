@@ -1,6 +1,6 @@
 const express = require('express')
 const route = express.Router()
-const { normalCheck , userSignUp, AllUserSignUp, userSignIn, verifyAndGetUser, sendingMailVerifyAccount, googleSignUp, googleSignIn, UpdateUserInfo, forgetPasswords, sendingMailForgetPassword, resetPasswords, mailverificationAfter, VerifyAccount, gettingUser, sendingMailOrderedProducts } = require('../controllers/controllerTarget')
+const { normalCheck , userSignUp, AllUserSignUp, userSignIn, verifyAndGetUser, sendingMailVerifyAccount, googleSignUp, googleSignIn, UpdateUserInfo, forgetPasswords, sendingMailForgetPassword, resetPasswords, mailverificationAfter, VerifyAccount, gettingUser, sendingMailOrderedProducts, logOut } = require('../controllers/controllerTarget')
 const { wishlistProd, wishlistaddProd, wishlistdeleteProd } = require('../controllers/wishlistController')
 const { cartlistaddProd, cartlistProd, cartlistdeleteProd, cartUpdateQuantity, cartlistAllDelete } = require('../controllers/cartlistController')
 const { addManyProducts, getproducts, getCatergory, singleProd, getsingleCategoryProds, getLatestProds, filterCategories, productTitleName } = require('../controllers/allProductController')
@@ -17,9 +17,11 @@ route.get('/users', AllUserSignUp)
 route.patch('/users/:id' , UpdateUserInfo )
 route.post('/signup' , userSignUp , sendingMailVerifyAccount)
 route.post('/signin', userSignIn)
-route.post('/verifyuser' , verifyAndGetUser , gettingUser)       
-route.post('/googlesignup' , googleSignUp)
-route.post('/googlesignin' , googleSignIn)
+route.get('/verifyuser' , verifyAndGetUser , gettingUser)       
+route.post('/auth/google' , googleSignUp)
+route.get('/auth/google' , googleSignIn)
+
+route.post('/logout' , logOut)
 
     
 /************** forgot password ************/   

@@ -7,7 +7,7 @@ const userApi  = apiSlice.injectEndpoints({
         
         getAllUsers : builders.query({
             query:()=>'/users',
-            providesTags:['users']
+            providesTags:['Users']
         }),
 
         getSignInUser : builders.mutation({
@@ -16,15 +16,15 @@ const userApi  = apiSlice.injectEndpoints({
                method: 'POST',
                body: data,
              }),
-            invalidatesTags:['users']
+            invalidatesTags:['Users']
         }),
          
-        getVerifyUser : builders.mutation({   
+        getVerifyUser : builders.query({   
             query: ()=>({
                url:'/verifyuser',
-               method: 'POST',
+               method: 'GET',
             }), 
-            invalidatesTags:['users']
+            providesTags:['Users']
         }), 
 
 
@@ -33,22 +33,25 @@ const userApi  = apiSlice.injectEndpoints({
                  url:'/signup',
                  method: 'POST',
                  body : data
-            })
+            }),
+            invalidatesTags:['Users']
         }),
 
         googleSignUp : builders.mutation({
                query: ()=>({
-                     url:"/googlesignup",
+                     url:"/auth/google",
                      method:"POST",
-               })
+               }),
+             invalidatesTags:['Users']
         }),
 
 
-        googleSignIn : builders.mutation({
+        googleSignIn : builders.query({
              query:()=>({
-                  url:"/googlesignin",
-                  method:"POST"
+                  url:"/auth/google",
+                  method:"GET"
              }),
+             providesTags:['Users']
         }),
 
         getUserUpdateProfile : builders.mutation({
@@ -57,8 +60,7 @@ const userApi  = apiSlice.injectEndpoints({
                  method:"PATCH",
                  body: data 
             }),
-            invalidatesTags:['users']
-            
+         invalidatesTags:['Users']            
       }),
 
       
@@ -67,7 +69,7 @@ const userApi  = apiSlice.injectEndpoints({
          url:`/address/${mail}`,
          method:'GET'
         }),
-        providesTags:['address']
+        providesTags:['Address']
  }),
 
  addUserAddress : builders.mutation({
@@ -76,7 +78,7 @@ const userApi  = apiSlice.injectEndpoints({
          method:"POST",
          body : { data }
       }),
-      invalidatesTags:['address']
+      invalidatesTags:['Address']
  }),
 
 
@@ -117,8 +119,17 @@ const userApi  = apiSlice.injectEndpoints({
            method:'DELETE',
            body : { email }
         }),
-        invalidatesTags:['address']
-})
+        invalidatesTags:['Address']
+     }),
+
+
+     logOutUser : builders.mutation({
+          query :(data)=>({
+             url:'/logout',
+             method:'POST',
+             body:{data} 
+          })
+     })
 
        })
 })
@@ -126,10 +137,10 @@ const userApi  = apiSlice.injectEndpoints({
 
 export const {         useGetAllUsersQuery,
                        useGetSignInUserMutation,  
-                       useGetVerifyUserMutation,
+                       useGetVerifyUserQuery,
                        useCreateUserMutation , 
                        useGoogleSignUpMutation , 
-                       useGoogleSignInMutation,  
+                       useGoogleSignInQuery,  
                        useGetUserUpdateProfileMutation,
                        useAddUserAddressMutation,
                        useGetUserAddressQuery,   
@@ -137,7 +148,9 @@ export const {         useGetAllUsersQuery,
                         useAddResetPasswordMutation ,
                         useGetVerifymailAfterMutation,
                           useGetVerifyMailMutation,
-                          useGetDeleteAddressMutation
+                          useGetDeleteAddressMutation,
+                          useLogOutUserMutation
+                         
                        } = userApi
 
 

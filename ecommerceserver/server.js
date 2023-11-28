@@ -24,6 +24,8 @@ app.use('/api' , Allapis)
 dbConnect()
 
 app.get('/',(req,res)=>{
+     res.clearCookie('googleTok')
+     res.clearCookie('jwtTokenid')
      res.send("Hello Ecommerce application")
 })
 

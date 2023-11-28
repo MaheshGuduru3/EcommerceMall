@@ -22,7 +22,8 @@ const ForgetPassword = () => {
            }
          }
          catch(err){
-           console.log(err , "forget opass")
+           console.log(err , "forget opass")    
+            toast.error(err.status)
              if(err.status === 'FETCH_ERROR'){
                toast.error("Server side Error")
              }

@@ -36,7 +36,10 @@ const userSignUp = async (req,res , next)=>{
 }
 
 const userSignIn = async (req,res)=>{
+
     const { email , password } = req.body
+
+  
  
     try{
         const result = await user.findOne({email})
@@ -48,9 +51,12 @@ const userSignIn = async (req,res)=>{
                      expiresIn:'1h'
                 })
                 
-                res.cookie('jwt', jwtToken)
+                res.cookie('jwtTokenid', jwtToken , {
+                      expiresIn : 1 * 60 * 60 * 1000,
+                      httpOnly:true
+                })
         
-                res.status(200).json({message:"successfully logged", token:jwtToken})
+                res.status(200).json({message:"successfully logged"})
              }   
              else{  
                 res.status(404).json({message:"Invalid Email or Password"})
@@ -66,10 +72,12 @@ const userSignIn = async (req,res)=>{
 }
 
 const verifyAndGetUser = async (req,res , next)=>{   
+     
+        const cToken = req.cookies.jwtTokenid
        
-        const cToken = req.headers.authorization.split(" ")[1]
-        
-       if(req.headers){
+         if(cToken === undefined) return
+
+      
         if(!cToken) {
             res.status(403).json({message:"token not found"})
         }
@@ -86,13 +94,13 @@ const verifyAndGetUser = async (req,res , next)=>{
        catch(err){
              res.status(500).json({message: err.meesage})
        }
-       }
+       
 
 }
 
 
 const gettingUser = async (req,res)=>{
-
+       
           const id = req.id
           try{
             const result = await user.findById({ _id : id},{password:0})
@@ -216,7 +224,8 @@ const  VerifyAccount  = async (req,res)=>{
 
 const googleSignUp = async (req,res)=>{
   
-    const  tokenClient  = req.headers.authorization.split(" ")[1]
+    const  tokenClient  = req.cookies.googleTok
+
   
     try{
         const decoded = await admin.auth().verifyIdToken(tokenClient)
@@ -233,7 +242,7 @@ const googleSignUp = async (req,res)=>{
                      email : decoded.email,
                      profile : decoded.picture
                 })
-                
+             
                 if(setData){
                     res.status(201).json({message:"Successfully created" , status:true})
                  
@@ -254,23 +263,31 @@ const googleSignUp = async (req,res)=>{
 
 
 const googleSignIn = async (req,res)=>{
-   
-     const   tokenClient =  req.headers.authorization.split(" ")[1]
+ 
+     const tokenClient =  req.cookies.googleTok
+
+     if(!tokenClient) return
     
      try{
          const  decodedToken =  await admin.auth().verifyIdToken(tokenClient)
+       
          if(decodedToken){
             const result  = await user.findOne({email  : decodedToken.email})
+          
+
             if(result){
                 res.status(200).json({message:"Successfully Logged In" , data : result})
                
             }
             else{
+                res.clearCookie('googleTok')
                 res.status(404).json({message:"Please register before login"})
+         
             }
          }
      }
      catch(err){
+       
         res.status(500).json({message:err.message})
      }
 }
@@ -515,6 +532,29 @@ const sendingMailOrderedProducts = async(req,res)=>{
 
 
 
+const logOut = async (req,res)=>{
+
+    const   data = req.body
+  
+  
+
+    try{
+        
+        const result =   res.clearCookie(data.data)
+        if(result){
+             res.status(200).json({message:'Logged  Out'})
+        }
+        else{
+            res.status(404).json({message: "Not Found"})
+        }
+    }
+    catch(err){
+       res.status(500).json({message:err.message})
+    }
+}
+
+
+
 module.exports = {
      normalCheck,
      AllUserSignUp,
@@ -531,5 +571,6 @@ module.exports = {
     sendingMailForgetPassword,
     resetPasswords,
     mailverificationAfter,
-    sendingMailOrderedProducts
+    sendingMailOrderedProducts,
+    logOut
 }

@@ -4,35 +4,34 @@ import { NavLink  , useNavigate} from 'react-router-dom'
 import { useFormik } from 'formik'
 import { validationSignIn } from '../../formValidateSchema/forms'
 import { useDispatch } from 'react-redux'
-import {  setGoogle, setToken } from '../../features/userInfo/UserSlice'
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 import { app } from '../../firebase/config/firebase.config'
 import { toast  , ToastContainer} from 'react-toastify'
 import { useGetSignInUserMutation } from '../../features/userInfo/userApi'
+import Cookies from 'js-cookie'
+
 
 const Login = () => {
    const navigate = useNavigate() 
    const dispatch = useDispatch()    
    const [userSignIn , { isLoading}] = useGetSignInUserMutation()  
-   
-   
-    
 
-    const  { values , errors , handleChange , handleSubmit} = useFormik({
+   
+   const  { values , errors , handleChange , handleSubmit} = useFormik({
        initialValues:{
           email:"",
           password:""
          },
          validationSchema:validationSignIn,
-         _onSubmit: async (data1) => {
+         onSubmit: async (data1) => {
             try {
-               dispatch(setGoogle(false))
                const res = await userSignIn(data1).unwrap()
-               dispatch(setToken(res.token))
-               navigate('/')
+               toast.success(res.message)
+               if(res){
+                  window.location.href='/'
+               }
             }
             catch (err) {
-
                if (err.status === 404) {
                   return toast.error(err.data.message)
                }
@@ -41,26 +40,22 @@ const Login = () => {
                   return toast.error("server not found")
                }
             }
-
-         },
-         get onSubmit() {
-            return this._onSubmit
-         },
-         set onSubmit(value) {
-            this._onSubmit = value
-         },
+         }
       })
 
 
-
+   
   const loginGoogle = async ()=>{
-      dispatch(setGoogle(true))
+   
        const  firebaseAuth = getAuth(app)
        const googleProvide =  new GoogleAuthProvider()
        try{
          const resultGoogleLogin = await signInWithPopup(firebaseAuth , googleProvide) 
-         dispatch(setToken(resultGoogleLogin.user.accessToken))
-         navigate('/')
+   
+         Cookies.set('googleTok' , resultGoogleLogin.user.accessToken , {
+            
+         })    
+         window.location.href = '/'
        }
        catch(err){
          return  toast.error("Please check your internet connection")

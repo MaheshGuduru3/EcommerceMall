@@ -8,7 +8,7 @@ import {  ToastContainer , toast} from 'react-toastify'
 import { getAuth , GoogleAuthProvider , signInWithPopup} from 'firebase/auth'
 import { app } from '../../firebase/config/firebase.config'
 import { useDispatch } from 'react-redux'
-import { setToken } from '../../features/userInfo/UserSlice'
+import Cookies from 'js-cookie'
 
 const initialdata = {
    username:"",
@@ -16,7 +16,7 @@ const initialdata = {
    password:"",
    reenterPassword:""
 }
-// codium => testing purpose extension
+// codium => testing purpose extension  
 const Register = () => {
     const  dispatch = useDispatch()
     const [signUp , {isLoading}] = useCreateUserMutation()
@@ -32,7 +32,7 @@ const Register = () => {
                 console.log(res)
                 if(res.status === true){
                    toast.success(res.mail)
-                   navigate('/login')
+                   navigate('/login')  
                 }
             }
             catch(err){
@@ -51,12 +51,12 @@ const Register = () => {
     const  registerWithGoogle = async ()=>{
          try{
             const data1 =  await signInWithPopup(firebaseAuth , provider)
-            dispatch(setToken(data1.user.accessToken))
+            Cookies.set('googleTok' , data1.user.accessToken) 
             try{
                   const getSignUpData = await googleSignReg().unwrap()
                   if(getSignUpData){
                      toast.success(getSignUpData.message)
-                     navigate('/login')
+                     window.location.href = '/'
                   }
                }
                catch(err){

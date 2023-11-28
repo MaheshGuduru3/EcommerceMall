@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { NavLink , Outlet, useNavigate } from 'react-router-dom'
+import { NavLink , Outlet, redirect, useNavigate } from 'react-router-dom'
 import { MdLocationPin ,MdFavoriteBorder } from 'react-icons/md'
 import { GoSearch } from 'react-icons/go'
 import { BsCartCheck , BsFillSunFill ,BsMoonFill , BsPersonCircle} from 'react-icons/bs'
@@ -8,13 +8,26 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { LogOut, setCerdentials, setThemeMode } from '../../features/userInfo/UserSlice'
-import {   useGetVerifyUserMutation, useGoogleSignInMutation } from '../../features/userInfo/userApi'
+import { useGetVerifyUserQuery, useGoogleSignInQuery, useLogOutUserMutation } from '../../features/userInfo/userApi'
 import { useGetCartlistQuery, useGetFilterTitleMutation, useGetWishListQuery } from '../../features/products/productApi' 
+import cookie from 'js-cookie'
 
 
 const Header = () => {
   
-  const refs = useRef()
+  const refs = useRef()    
+  
+    const { data:verify , isFetching:fetch, isLoading:ve } = useGetVerifyUserQuery()
+
+
+
+  const { data:googlesign , isFetching , isLoading , error} = useGoogleSignInQuery()
+
+      
+  useEffect(()=>{
+    toast.error(error?.data?.message)  
+  },[])
+
 
   const dispatch = useDispatch()
   //useState for getting the pincode and store in these state.
@@ -22,43 +35,40 @@ const Header = () => {
   const [searching, setSearching ] = useState('')
   
   const navigate = useNavigate()
-  
+    
   const [filtername , { data:data1 }] = useGetFilterTitleMutation() 
 
   const {  User , theme  , token , google}  = useSelector(state=>state.userslice)
          
-   
-         
-
+  
   //usestate for toggle the window to enter the pincode 
   const [togglePincode , setTogglePincode] = useState(false)
- 
+  
   //usestate for the toggle the window of the signin/up
   const [sign, setSign] = useState(false)
-
+  
   //usestate for profile toggle 
   const [profileToggle , setProfileToggle] = useState(false)
-
+  
 
   //
   const { data } = useGetCartlistQuery(User.email)  
   
   const { data:wish } = useGetWishListQuery(User.email)    
 
-
-  const [googleSignIn ] = useGoogleSignInMutation()
   
-  const [verify] = useGetVerifyUserMutation()    
+  
+  
   
   //handler function the getting the pincode and set the pincode state
   const handlerSubmitPincode = (e)=>{  
-           e.preventDefault() 
+    e.preventDefault() 
            setPincode('')
   }
-
+  
   //handle function filter pincode 
   const handlerFilterPincode = async()=>{
-     try{
+    try{
         const result = await axios( process.env.REACT_APP_LOCATION_PINCODE + pincode)
         if( result.data[0].Status === "Success"){ 
           window.localStorage.setItem("ecommerce_location" , JSON.stringify([result.data[0].PostOffice[0].Division , pincode]))
@@ -66,110 +76,118 @@ const Header = () => {
         else{
           toast.error("Invalid Pincode")
         }
-     }
-     catch(err){   
-       toast.error(err.message)
-     }
-    setTogglePincode(false)
-   
-
-  }
-
-  const handlerSubmitTitle = (e)=>{
-    e.preventDefault() 
-    if(searching){
-      navigate(`/searchedproduct/${searching}`)
-      setSearching('')
-    }
-    else{
-       toast.warning("please give the search data")
+      }
+      catch(err){   
+        toast.error(err.message)
+      }
+      setTogglePincode(false)
+      
+      
     }
     
-}
-
- const handlerFilterTitle = async()=>{
+    const handlerSubmitTitle = (e)=>{
+      e.preventDefault() 
+      if(searching){
+        navigate(`/searchedproduct/${searching}`)
+        setSearching('')
+      }
+      else{
+        toast.warning("please give the search data")
+      }
+      
+    }
+    
+    const handlerFilterTitle = async()=>{
       try{
         const resultNames = await filtername(searching).unwrap()
         if(resultNames){
-           if(searching){
+          if(searching){
             navigate(`/searchedProduct/${searching}`)    
             setSearching('')
-           }
-           else{
+          }
+          else{
             toast.warning("please give the search data")
-           }
+          }
         }
       }
       catch(err){
         toast.error(err)
       }
-   
- }
-
-const filterTitleHandler = async (e)=>{
-  setSearching(e.target.value)
-  try{
-     await filtername(searching).unwrap()
-  }
-  catch(err){
-    toast.error(err)
-  }
+      
+    }
+    
+    const filterTitleHandler = async (e)=>{
+      setSearching(e.target.value)
+      try{
+        await filtername(searching).unwrap()
+      }
+      catch(err){
+        toast.error(err)
+      }
+      
+    }
+    
+    const [loggedOut] = useLogOutUserMutation()
   
-}
+    
+    const LogOutHandler = async () => {
+        
+         let data = ''
+
+       
+
+
+         if(cookie.get('googleTok')){
+              data = 'googleTok'
+         }
+         else{
+            data = 'jwtTokenid'    
+         }
+ 
+        try{
+        const result = await loggedOut(data).unwrap()
+        if(result){
+           
+            setTimeout (()=>{
+              window.location.href = '/'
+            },4000)
+          
+            toast.warning(result.message)
+        
+            setProfileToggle(false)
+          
+          }
+        }
+        catch(err){
+          console.log(err.error)
+        }
+         
+    }
+   
+  
+
+useEffect(()=>{
+  if(!googlesign) return
+  if(googlesign?.data){
+    dispatch(setCerdentials(googlesign?.data)) 
+  }
+},[googlesign?.data])
+
+
+
 
 
 useEffect(()=>{
-  const googlesignin = async()=>{
-       
-          try{
-            const result = await googleSignIn().unwrap()
-            if(result){
-              dispatch(setCerdentials(result.data))
-              toast.success("Logged In")
-            }
-  
-        }
-      catch(error){
-        if(error.status === "FETCH_ERROR"){
-          return toast.error("server not found")
-        }
-        if(error.data.message === 'Please register before login'){
-          toast.error(error.data.message)
-          navigate('/register') 
-        }
-        else{
-          dispatch(setCerdentials([]))      
-          toast.error("Session Expired, please login again.")
-          navigate('/') 
-        }
-      }
-  }   
-
-  const res = async()=>{
-    try{
-        const result = await verify().unwrap()
-     if(result){
-         toast.success(result.message)
-         dispatch(setCerdentials(result.data))  
-     }
+  if(!verify) return
+  if(verify?.data){
+    dispatch(setCerdentials(verify?.data)) 
   }
-  catch(err){
-   dispatch(setCerdentials([]))      
-   toast.error("Session Expired, please login again.")
-   navigate('/')  
-  }
+ 
+},[verify?.data])   
 
-}
-  
- if(token){
-    if(google){
-       googlesignin()
-    }
-    else{
-      res()
-    }
- }
-},[]) 
+
+
+
 
 return (
     <div>
@@ -292,9 +310,9 @@ return (
           
                                <div className='flex flex-col gap-2 dark:text-white'>
                                 <hr />
-                                 <button className='flex items-center gap-3 text-lg' onClick={()=>{ toast.warning("Logged Out") ; dispatch(LogOut()) ; setProfileToggle(false)}}>
+                                 <button className='flex items-center gap-3 text-lg' onClick={()=>{LogOutHandler()}}>
                                     <BiLogOut className='text-2xl' />
-                                    <h4 className='font-bold hover:-translate-y-2'>Sign Out</h4>
+                                    <h4 className='font-bold hover:-translate-y-2'>Sign Out</h4>  
                                   </button>
                                   <hr />
                                   <div>

@@ -7,7 +7,7 @@
 #Integrated functionality for managing product inventory, including in-stock and out-of-stock items.Integrated features for password recovery, email verification, and sending emails using Nodemailer. </br>
 #It is responsive web application </br>
 
-#live https://myzonemallmh.netlify.app/
+#LiveLink => https://myzonemallmh.netlify.app/
 
 ![Screenshot (177)](https://github.com/MaheshGuduru3/EcommerceMall/assets/136345745/4fa9c5fd-ee9a-4273-ad08-fbf8c56028db)
 

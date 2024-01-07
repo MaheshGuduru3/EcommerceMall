@@ -1,8 +1,13 @@
 # MERN full stack ecommerce web application
 
-#Developed an ecommerce web application using MERN stack,implemented key features including Google authentication, dark and light theme, search product, pagination, user profile, shopping cart, wishlist cart, cash on delivery method and payment gateway integration using Razorpay.
-#Integrated functionality for managing product inventory, including in-stock and out-of-stock items.Integrated features for password recovery, email verification, and sending emails using Nodemailer.
-#It is responsive web application
+# Tech stack used MERN along with firebase , tailwindcss
+
+
+#Developed an ecommerce web application using MERN stack,implemented key features including Google authentication, dark and light theme, search product, pagination, user profile, shopping cart, wishlist cart, cash on delivery method and payment gateway integration using Razorpay. </br>
+#Integrated functionality for managing product inventory, including in-stock and out-of-stock items.Integrated features for password recovery, email verification, and sending emails using Nodemailer. </br>
+#It is responsive web application </br>
+
+
 
 ![Screenshot (177)](https://github.com/MaheshGuduru3/EcommerceMall/assets/136345745/4fa9c5fd-ee9a-4273-ad08-fbf8c56028db)
 
